@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import '../styles/Voucher.scss'; 
+import '../styles/Voucher.scss';
 
 const Voucher = () => {
   const [formData, setFormData] = useState({
@@ -80,7 +80,7 @@ const Voucher = () => {
           </button>
         </form>
       </div>
-      <div id="voucher-content" className="voucher-pdf-preview">
+      <div id="voucher-content" className="voucher-pdf-preview" >
         <PDFViewer width="100%" height="100%">
           <Document>
             <Page size="A5" style={styles.page}>
@@ -99,7 +99,7 @@ const Voucher = () => {
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundSize: 'cover', 
   },
   section: {
     margin: 10,
