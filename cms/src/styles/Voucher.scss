@@ -1,41 +1,33 @@
-
 .voucher-container {
-    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: stretch;
+    height: 100vh;
+  }
+  
+
+  .voucher-form-container {
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 8px;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .voucher-header {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
   }
   
-
-  .voucher-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-
   .voucher-label {
     font-size: 18px;
   }
+  
 
   .voucher-input {
     width: 100%;
-    padding: 8px;
+    padding: 7px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
-
   .voucher-button {
     width: 100%;
     padding: 10px;
@@ -47,8 +39,17 @@
     cursor: pointer;
   }
   
-
-  .voucher-pdf-preview {
-    margin-top: 20px;
+  .voucher-header {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
   }
-  
+
+.voucher-pdf-preview {
+    flex: 2; 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    overflow: auto; 
+  }
