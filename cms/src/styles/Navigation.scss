@@ -1,0 +1,18 @@
+.Navigation {
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+  color: #fff;
+  padding: 15px 0;
+  font-size: 13px; 
+
+  .Navigation-item {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    margin: 0 15px; 
+
+    &:hover {
+      color: #ff5722;
+    }
+  }
+}

@@ -29,13 +29,13 @@ class RegistrationController {
       res.status(500).json({ error: 'Wystąpił błąd podczas pobierania rejestracji', details: error.message });
     }
   }
-// Dziwne to bo zwraca ciągle to samo nie aktualziuje !!!!
+// Działa
   async update(req: Request, res: Response) {
     const { id } = req.params;
     try {
       const registration = await Registration.findOneAndUpdate(
         { _id: id },
-        { $set: req.body }, 
+        req.body, 
         { new: true }
       );
       if (!registration) {
