@@ -2,9 +2,9 @@
     display: flex;
     align-items: stretch;
     height: 100vh;
+    margin: 0; 
   }
   
-
   .voucher-form-container {
     flex: 1;
     flex-direction: column;
@@ -13,13 +13,15 @@
     background-color: #f0f0f0;
     border: 2px solid #ccc;
     border-radius: 8px;
+    margin: 0; 
   }
   
   .voucher-label {
     font-size: 18px;
+    padding: 10px 0; 
+    margin: 0; 
   }
   
-
   .voucher-input {
     width: 100%;
     padding: 7px;
@@ -31,7 +33,8 @@
   .voucher-button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    padding: 0px 15; 
+    background-color: #8B4513; 
     color: #fff;
     font-size: 18px;
     border: none;
@@ -44,12 +47,15 @@
     font-size: 24px;
     margin-bottom: 20px;
   }
-
-.voucher-pdf-preview {
-    flex: 2; 
+  
+  .voucher-pdf-preview {
+    flex: 2;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    padding: 20px;
-    overflow: auto; 
+    padding: 0; 
+    margin: 0; 
+    overflow: auto;
+    width: 100%; 
   }
+  

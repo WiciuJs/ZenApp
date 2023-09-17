@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import '../styles/Voucher.scss';
+import '../styles/Voucher.scss'; 
 
 const Voucher = () => {
   const [formData, setFormData] = useState({
@@ -21,9 +21,9 @@ const Voucher = () => {
     const input = document.getElementById('voucher-content');
 
     if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas) => {
+      html2canvas(input).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('portrait', 'mm', 'a5');
+        const pdf = new jsPDF('p', 'mm', 'a5');
         pdf.addImage(imgData, 'PNG', 0, 0, 148, 210);
         pdf.save('voucher.pdf');
       });
@@ -80,7 +80,7 @@ const Voucher = () => {
           </button>
         </form>
       </div>
-      <div className="voucher-pdf-preview" id="voucher-content">
+      <div id="voucher-content" className="voucher-pdf-preview">
         <PDFViewer width="100%" height="100%">
           <Document>
             <Page size="A5" style={styles.page}>
@@ -96,11 +96,10 @@ const Voucher = () => {
     </div>
   );
 };
-
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: 'transparent', 
+    backgroundColor: 'white',
   },
   section: {
     margin: 10,
@@ -110,5 +109,3 @@ const styles = StyleSheet.create({
 });
 
 export default Voucher;
-
-
