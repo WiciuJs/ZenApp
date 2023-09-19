@@ -1,40 +1,15 @@
-import React, { useState } from "react";
 import "../styles/Navigation.scss";
 import "../styles/Calendar.scss";
-import Voucher from "./Voucher";
-import CalendarView from "../views/CalendarView";
+import { Link } from "react-router-dom";
 
 function Navigation() {
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [showVoucher, setShowVoucher] = useState(false);
-
-  const handleCalendarClick = () => {
-    setShowCalendar(true);
-    setShowVoucher(false);
-  };
-
-  const handleVoucherClick = () => {
-    setShowVoucher(true);
-    setShowCalendar(false);
-  };
-
   return (
-    <div>
-      <div className="Navigation">
-        <div className="Navigation-item" onClick={handleCalendarClick}>
-          Kalendarz{" "}
-        </div>
-        <div className="Navigation-item">Lista klientów</div>
-        <div className="Navigation-item">Zaopatrzenie</div>
-        <div className="Navigation-item" onClick={handleVoucherClick}>
-          {" "}
-          Voucher{" "}
-        </div>
-        <div className="Navigation-item">Zabiegi</div>
-      </div>
-
-      {showCalendar && <CalendarView />}
-      {showVoucher && <Voucher />}
+    <div className="Navigation">
+      <Link to="/calendar" className="Navigation-item">Kalendarz</Link>
+      <Link to="/client-list" className="Navigation-item">Lista klientów</Link>
+      <Link to="/supplies" className="Navigation-item">Zaopatrzenie</Link>
+      <Link to="/voucher" className="Navigation-item">Voucher</Link>
+      <Link to="/treatments" className="Navigation-item">Zabiegi</Link>
     </div>
   );
 }

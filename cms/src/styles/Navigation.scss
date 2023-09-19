@@ -5,14 +5,15 @@
   color: #fff;
   padding: 15px 0;
   font-size: 13px; 
+}
 
-  .Navigation-item {
-    cursor: pointer;
-    transition: color 0.2s ease;
-    margin: 0 15px; 
+.Navigation-item {
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin: 0 15px; 
+  color: #fff; 
+}
 
-    &:hover {
-      color: #ff5722;
-    }
-  }
+.Navigation-item:hover {
+  color: #ff5722; 
 }

@@ -1,13 +1,18 @@
-import React from 'react';
 import './styles/App.scss';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Navigation from './components/Navigation';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navigation from "../src/components/Navigation";
+import CalendarView from "../src/views/CalendarView";
+import Voucher from "../src/components/Voucher";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Navigation />
+        <Routes>
+          <Route path="/calendar" element={<CalendarView />} />
+          <Route path="/voucher" element={<Voucher />} />
+        </Routes>
       </div>
     </Router>
   );
