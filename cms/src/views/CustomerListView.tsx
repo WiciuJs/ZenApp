@@ -110,5 +110,4 @@ const CustomerListView: React.FC = () => {
     </div>
   );
 };
-
 export default CustomerListView;

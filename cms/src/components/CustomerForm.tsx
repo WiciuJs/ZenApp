@@ -37,14 +37,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
     });
   };
 
-  const handleCommentsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -155,7 +147,6 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
               id="comments"
               name="comments"
               value={formData.comments}
-              onChange={handleCommentsChange}
             />
             <label htmlFor="comments">Komentarze:</label>
             <div className="border"></div>

@@ -13,10 +13,18 @@ export interface ICustomer extends Document {
 const CustomerSchema: Schema<ICustomer> = new Schema<ICustomer>({
   name: { type: String, required: true },
   surname: { type: String, required: true },
-  age: { type: Number, required: true },
+  age: { type: Number, required: true, min: 0 }, 
   comments: { type: String },
   mail: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true, unique: true },
+  phoneNumber: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    validate: {
+      validator: (value: string) => /^\d{9}$/.test(value), 
+      message: 'Numer telefonu musi zawierać dokładnie 9 cyfr.',
+    },
+  },
   registrations: [{ type: Schema.Types.ObjectId, ref: "Registration" }],
 });
 
