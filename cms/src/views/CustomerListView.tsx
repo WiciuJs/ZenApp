@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomerForm from '../components/CustomerForm';
 import '../styles/CustomerViews.scss';
-import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUserGear as faDuotoneUserGear } from '@fortawesome/free-solid-svg-icons';
+import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUserGear as faDuotoneUserGear, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Customer } from '../Interface/Interface';
 
@@ -10,6 +10,18 @@ const CustomerListView: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [customerToEdit, setCustomerToEdit] = useState<Customer | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const filteredCustomers = customers.filter((customer) => {
+    const { name, surname, phoneNumber, mail } = customer;
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    return (
+      name.toLowerCase().includes(lowerSearchTerm) ||
+      surname.toLowerCase().includes(lowerSearchTerm) ||
+      phoneNumber.toLowerCase().includes(lowerSearchTerm) ||
+      mail.toLowerCase().includes(lowerSearchTerm)
+    );
+  });
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/customer')
@@ -53,11 +65,21 @@ const CustomerListView: React.FC = () => {
         console.error('Błąd podczas aktualizacji użytkownika:', error);
       });
   };
-  
+
   return (
     <div className="customer-view">
       <div className="customer-form">
         <CustomerForm onCustomerAdded={handleCustomerAdded} />
+      </div>
+      <div className="container">
+        <input
+          type="text"
+          placeholder="Wyszukaj użytkownika..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div className="search">
+        </div>
       </div>
       <div className="customer-list">
         <h2>Lista użytkowników</h2>
@@ -74,7 +96,7 @@ const CustomerListView: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {customers.map((customer) => (
+            {filteredCustomers.map((customer) => (
               <tr key={customer._id}>
                 <td>{customer.name}</td>
                 <td>{customer.surname}</td>

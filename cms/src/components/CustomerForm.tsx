@@ -136,7 +136,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         <form onSubmit={handleSubmit}>
-        <div className="input-block">
+          <div className="input-block">
             <input
               type="text"
               id="name"
