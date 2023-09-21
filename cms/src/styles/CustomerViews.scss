@@ -1,43 +1,68 @@
 .customer-list {
-    flex: 1;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  table th, table td {
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  table th {
-    background-color: #f0f0f0;
-    font-weight: bold;
-  }
-  
-  .success-message {
-    color: green;
-    margin-top: 1rem;
-    text-align: center;
-  }
-  
-  .error-message {
-    color: red;
-    margin-top: 1rem;
-    text-align: center;
-  }
-  
-  
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.success-message {
+  color: green;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  margin-top: 1rem;
+  text-align: center;
+}
+.neon-button-action-delete,
+.neon-button-action-edit,
+.neon-button-action {
+  color: #fe7f00;
+  font-size: 18px;
+  margin: 5px;
+  padding: 5px 10px;
+  transition: all 0.3s linear 0s;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+.neon-button-action-delete:hover{
+ color: #f10708;
+}
+.neon-button-action-edit:hover{
+  color: #0300fd;
+}
+.neon-button-action:hover {
+  color: #8e1a67;
+}
+
+.neon-button-action:active {
+  animation: btn-animation 0.2s linear 0s alternate 2;
+}
