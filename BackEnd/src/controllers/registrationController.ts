@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Registration, { IRegistration } from '../models/registrationModel';
+import Registration, { IRegistration } from '../models/RegistrationModel';
 //Działa
 class RegistrationController {
   async create(req: Request, res: Response) {

@@ -17,6 +17,7 @@ const CustomerSchema: Schema<ICustomer> = new Schema<ICustomer>({
   comments: { type: String },
   mail: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true, unique: true },
+  registrations: [{ type: Schema.Types.ObjectId, ref: "Registration" }],
 });
 
-export default mongoose.model<ICustomer>('Customer', CustomerSchema);
+export default mongoose.model<ICustomer>("Customer", CustomerSchema);

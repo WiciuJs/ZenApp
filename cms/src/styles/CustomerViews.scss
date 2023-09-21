@@ -1,10 +1,10 @@
-.user-view {
+.customer-view {
     display: flex;
     justify-content: space-between;
     gap: 20px;
   }
   
-  .user-form {
+  .customer-form {
     flex: 1;
     padding: 20px;
     background-color: #f7f7f7;
@@ -13,7 +13,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .user-list {
+  .customer-list {
     flex: 2;
     padding: 20px;
     background-color: #fff;

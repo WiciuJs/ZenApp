@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import registrationRoutes from './routes/registrationRoutes';
-import userRoutes from './routes/CustomersRoutes';
+import customersRoutes from './routes/CustomersRoutes';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api', registrationRoutes);
-app.use('/api', userRoutes);
+app.use('/api', customersRoutes);
 
 app.listen(port, () => {
   console.log(`Serwer działa na porcie ${port}`);

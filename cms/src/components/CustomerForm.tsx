@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-interface User {
+interface Customer {
     _id: string;
     name: string;
     surname: string;
@@ -11,11 +11,11 @@ interface User {
     phoneNumber: string;
   }
 
-interface UserFormProps {
-  onUserAdded: (newUser: User) => void;
+interface CustomerFormProps {
+  onCustomerAdded : (newCustomer: Customer) => void;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ onUserAdded }) => {
+const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -46,12 +46,12 @@ const UserForm: React.FC<UserFormProps> = ({ onUserAdded }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    axios.post('http://127.0.0.1:5000/api/users', formData)
+    axios.post('http://127.0.0.1:5000/api/customer', formData)
       .then((response) => {
         console.log('Nowy użytkownik został dodany:', response.data);
         setSuccessMessage('Nowy użytkownik został dodany.');
         setErrorMessage(null);
-        onUserAdded(response.data); 
+        onCustomerAdded(response.data.customer); 
         clearForm();
       })
       .catch((error) => {
@@ -150,4 +150,4 @@ const UserForm: React.FC<UserFormProps> = ({ onUserAdded }) => {
   );
 };
 
-export default UserForm;
+export default CustomerForm;

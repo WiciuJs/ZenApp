@@ -14,4 +14,4 @@ const RegistrationSchema: Schema = new Schema({
   name: { type: String, required: true },
   customer: { type: Schema.Types.ObjectId, ref: 'Customer', required: true },
 });
-export default mongoose.model<IRegistration>('Customer', RegistrationSchema);
+export default mongoose.model<IRegistration>('Registration', RegistrationSchema);

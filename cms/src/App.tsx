@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navigation from "../src/components/Navigation";
 import CalendarView from "../src/views/CalendarView";
 import Voucher from "../src/components/Voucher";
-import UserListView from './views/UserListView';
+import UserListView from './views/CustomerListView';
 
 function App() {
   return (
