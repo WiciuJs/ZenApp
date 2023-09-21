@@ -17,6 +17,7 @@ export interface CustomerEditProps {
 export interface CustomerFormProps {
     onCustomerAdded: (newCustomer: Customer) => void;
     initialCustomer?: Customer; 
+    customerToEdit?: Customer;
   }
 
 export interface ActionCustomerProps {

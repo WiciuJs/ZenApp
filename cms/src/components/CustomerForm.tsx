@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import '../styles/CustomerForm.scss';
@@ -6,7 +6,7 @@ import { CustomerFormProps } from '../Interface/Interface';
 
 Modal.setAppElement('#root');
 
-const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
+const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerToEdit }) => {
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -15,6 +15,17 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
     mail: '',
     phoneNumber: '',
   });
+  const clearForm = () => {
+    setFormData({
+      name: '',
+      surname: '',
+      age: '',
+      comments: '',
+      mail: '',
+      phoneNumber: '',
+    });
+  };
+
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -22,7 +33,20 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
   const ageIsNumber = /^\d+$/.test(formData.age) && parseInt(formData.age) >= 0;
   const phoneNumberIsValid = /^\d{9}$/.test(formData.phoneNumber);
   const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
-  const formattedPhoneNumber = cleanedPhoneNumber.replace(/(\d{3})(?=\d)/g, '$1-');
+  const formattedPhoneNumber = cleanedPhoneNumber.replace(/(\d{3})(?=\d)/g, '-');
+
+  useEffect(() => {
+    if (customerToEdit) {
+      setFormData({
+        name: customerToEdit.name,
+        surname: customerToEdit.surname,
+        age: customerToEdit.age.toString(),
+        comments: customerToEdit.comments,
+        mail: customerToEdit.mail,
+        phoneNumber: customerToEdit.phoneNumber,
+      });
+    }
+  }, [customerToEdit]);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -49,11 +73,11 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
       });
     }
   };
-  
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!ageIsNumber) {
-      setErrorMessage('Wprowadź poprawny wiek ');
+      setErrorMessage('Wprowadź poprawny wiek');
       setSuccessMessage(null);
     } else if (!phoneNumberIsValid) {
       setErrorMessage('Wprowadź poprawny numer telefonu (9 cyfr).');
@@ -63,50 +87,56 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
         ...formData,
         phoneNumber: formattedPhoneNumber,
       };
-      axios
-        .post('http://127.0.0.1:5000/api/customer', dataToSend)
-        .then((response) => {
-          console.log('Nowy użytkownik został dodany:', response.data);
-          setSuccessMessage('Nowy użytkownik został dodany.');
-          setErrorMessage(null);
-          onCustomerAdded(response.data.customer);
-          closeModal();
-        })
-        .catch((error) => {
-          console.error('Błąd podczas dodawania użytkownika:', error);
-          setErrorMessage('Wystąpił błąd podczas dodawania użytkownika.');
-          setSuccessMessage(null);
-        });
+
+      if (customerToEdit) {
+        axios
+          .put(`http://127.0.0.1:5000/api/customer/${customerToEdit._id}`, dataToSend)
+          .then((response) => {
+            console.log('Klient został zaktualizowany:', response.data);
+            setSuccessMessage('Klient został zaktualizowany.');
+            setErrorMessage(null);
+            onCustomerAdded(response.data.customer);
+            closeModal();
+          })
+          .catch((error) => {
+            console.error('Błąd podczas aktualizacji klienta:', error);
+            setErrorMessage('Wystąpił błąd podczas aktualizacji klienta.');
+            setSuccessMessage(null);
+          });
+      } else {
+        axios
+          .post('http://127.0.0.1:5000/api/customer', dataToSend)
+          .then((response) => {
+            console.log('Nowy użytkownik został dodany:', response.data);
+            setSuccessMessage('Nowy użytkownik został dodany.');
+            setErrorMessage(null);
+            onCustomerAdded(response.data.customer);
+            closeModal();
+          })
+          .catch((error) => {
+            console.error('Błąd podczas dodawania użytkownika:', error);
+            setErrorMessage('Wystąpił błąd podczas dodawania użytkownika.');
+            setSuccessMessage(null);
+          });
+      }
     }
   };
-
-  const clearForm = () => {
-    setFormData({
-      name: '',
-      surname: '',
-      age: '',
-      comments: '',
-      mail: '',
-      phoneNumber: '',
-    });
-  };
-
   return (
     <div className="customer-form">
       <button onClick={openModal} className="neon-button">
-        Dodaj nowego użytkownika
+        {customerToEdit ? 'Edytuj klienta' : 'Dodaj nowego użytkownika'}
       </button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Dodaj nowego użytkownika"
+        contentLabel={customerToEdit ? 'Edytuj klienta' : 'Dodaj nowego użytkownika'}
         className="modal"
         style={{ overlay: { backgroundColor: 'white' } }}
       >
         {successMessage && <div className="success-message">{successMessage}</div>}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="input-block">
+        <div className="input-block">
             <input
               type="text"
               id="name"

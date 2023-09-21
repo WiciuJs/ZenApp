@@ -6,11 +6,10 @@ import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUse
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Customer } from '../Interface/Interface';
 
-
 const CustomerListView: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [customerToEdit, setCustomerToEdit] = useState<Customer | null>(null);
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/customer')
@@ -37,7 +36,7 @@ const CustomerListView: React.FC = () => {
   };
 
   const handleEditCustomer = (customer: Customer) => {
-    setSelectedCustomer(customer);
+    setCustomerToEdit(customer);
     setIsEditMode(true);
   };
 
@@ -47,14 +46,14 @@ const CustomerListView: React.FC = () => {
         setCustomers(customers.map(customer =>
           customer._id === updatedCustomer._id ? updatedCustomer : customer
         ));
-        setSelectedCustomer(null);
+        setCustomerToEdit(null);
         setIsEditMode(false);
       })
       .catch((error) => {
         console.error('Błąd podczas aktualizacji użytkownika:', error);
       });
   };
-
+  
   return (
     <div className="customer-view">
       <div className="customer-form">
@@ -98,11 +97,12 @@ const CustomerListView: React.FC = () => {
             ))}
           </tbody>
         </table>
-        {isEditMode && selectedCustomer && (
+        {isEditMode && customerToEdit && (
           <div className="edit-form">
             <h3>Edytuj użytkownika</h3>
             <CustomerForm
               onCustomerAdded={handleSaveCustomer}
+              customerToEdit={customerToEdit}
             />
           </div>
         )}
