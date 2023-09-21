@@ -1,5 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
+
 .customer-list {
   flex: 1;
+  position: relative;
   padding: 20px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -70,9 +73,6 @@ table th {
 .neon-button-action:active {
   animation: btn-animation 0.2s linear 0s alternate 2;
 }
-
-
-@import url('https://fonts.googleapis.com/css?family=Inconsolata:700');
 
 * {
   margin: 0;
@@ -199,6 +199,56 @@ table th {
         opacity: 0.5;
         font-weight: bolder;
       }
+    }
+  }
+}
+
+.pagination {
+  width: 50vw;
+  height: 80px;
+  line-height: 60px;
+  position: sticky;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+
+  ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.25);
+
+    li {
+      flex: 1;
+      list-style: none;
+      text-align: center;
+      position: relative;
+      font-size: 12px;
+      font-weight: bold;
+      transition: 0.5s ease;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        color: #fe7f00;
+
+        @for $i from 2 through 5 {
+          &:nth-of-type(#{$i})~.bar {
+            center: #{$i * 5% - 5%};
+          }
+        }
+      }
+    }
+
+    .bar {
+      width: 100%;
+      background-color: #fe7f00;
+      height: 2px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      transition: 0.5s ease;
     }
   }
 }

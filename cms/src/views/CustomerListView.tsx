@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomerForm from '../components/CustomerForm';
 import '../styles/CustomerViews.scss';
-import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUserGear as faDuotoneUserGear, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUserGear as faDuotoneUserGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Customer } from '../Interface/Interface';
 
@@ -11,6 +11,10 @@ const CustomerListView: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [customerToEdit, setCustomerToEdit] = useState<Customer | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const customersPerPage = 10;
+  const indexOfLastCustomer = currentPage * customersPerPage;
+  const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
 
   const filteredCustomers = customers.filter((customer) => {
     const { name, surname, phoneNumber, mail } = customer;
@@ -22,6 +26,12 @@ const CustomerListView: React.FC = () => {
       mail.toLowerCase().includes(lowerSearchTerm)
     );
   });
+
+  const currentCustomers = filteredCustomers.slice(indexOfFirstCustomer, indexOfLastCustomer);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/api/customer')
@@ -96,7 +106,7 @@ const CustomerListView: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCustomers.map((customer) => (
+            {currentCustomers.map((customer) => (
               <tr key={customer._id}>
                 <td>{customer.name}</td>
                 <td>{customer.surname}</td>
@@ -128,6 +138,16 @@ const CustomerListView: React.FC = () => {
             />
           </div>
         )}
+        <div className="pagination">
+          <ul>
+            {Array.from({ length: Math.ceil(filteredCustomers.length / customersPerPage) }).map((_, index) => (
+              <li key={index} onClick={() => paginate(index + 1)}>
+                {index + 1}
+                <div className="bar"></div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
