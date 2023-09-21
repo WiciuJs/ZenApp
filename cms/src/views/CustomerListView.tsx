@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import UserForm from '../components/CustomerForm';
+import CustomerForm from '../components/CustomerForm';
 import '../styles/CustomerViews.scss';
 import { faUserXmark as faSolidUserXmark, faBookmark as faDuotoneBookmark, faUserGear as faDuotoneUserGear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Customer } from '../Interface/Interface';
 
-interface Customer {
-  _id: string;
-  name: string;
-  surname: string;
-  age: number;
-  comments: string;
-  mail: string;
-  phoneNumber: string;
-}
 
 const CustomerListView: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -30,7 +22,7 @@ const CustomerListView: React.FC = () => {
       });
   }, []);
 
-  const handleUserAdded = (newCustomer: Customer) => {
+  const handleCustomerAdded = (newCustomer: Customer) => {
     setCustomers([...customers, newCustomer]);
   };
 
@@ -66,7 +58,7 @@ const CustomerListView: React.FC = () => {
   return (
     <div className="customer-view">
       <div className="customer-form">
-        <UserForm onCustomerAdded={handleUserAdded} />
+        <CustomerForm onCustomerAdded={handleCustomerAdded} />
       </div>
       <div className="customer-list">
         <h2>Lista użytkowników</h2>
@@ -109,7 +101,7 @@ const CustomerListView: React.FC = () => {
         {isEditMode && selectedCustomer && (
           <div className="edit-form">
             <h3>Edytuj użytkownika</h3>
-            <UserForm
+            <CustomerForm
               onCustomerAdded={handleSaveCustomer}
             />
           </div>

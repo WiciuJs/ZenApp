@@ -2,22 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import '../styles/CustomerForm.scss';
+import { CustomerFormProps } from '../Interface/Interface';
 
 Modal.setAppElement('#root');
-
-interface Customer {
-  _id: string;
-  name: string;
-  surname: string;
-  age: number;
-  comments: string;
-  mail: string;
-  phoneNumber: string;
-}
-
-interface CustomerFormProps {
-  onCustomerAdded: (newCustomer: Customer) => void;
-}
 
 const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
   const [formData, setFormData] = useState({
