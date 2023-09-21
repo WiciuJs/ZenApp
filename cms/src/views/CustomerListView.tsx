@@ -43,9 +43,9 @@ const CustomerListView: React.FC = () => {
               <th>Imię</th>
               <th>Nazwisko</th>
               <th>Wiek</th>
-              <th>Komentarze</th>
               <th>E-mail</th>
               <th>Numer telefonu</th>
+              <th>Komentarze</th>
             </tr>
           </thead>
           <tbody>
@@ -54,9 +54,9 @@ const CustomerListView: React.FC = () => {
                 <td>{customer.name}</td>
                 <td>{customer.surname}</td>
                 <td>{customer.age}</td>
-                <td>{customer.comments}</td>
                 <td>{customer.mail}</td>
                 <td>{customer.phoneNumber}</td>
+                <td>{customer.comments}</td>
               </tr>
             ))}
           </tbody>

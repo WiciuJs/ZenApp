@@ -1,0 +1,168 @@
+body {
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    align:center;
+  }
+  
+  .container {
+    width: 1140px;
+    margin: 50px auto;
+  }
+  
+  .clear:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  h1,h2 {
+    text-align: center;
+    color: #fe7f00;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  form {
+    margin-top: 80px;
+  }
+  
+  .input-block {
+    width: 31%;
+    float: left;
+    margin-right: 3.3%;
+    position: relative;
+    margin-bottom: 60px;
+  }
+  
+  .input-block:nth-child(3n) {
+    margin-right: 0px;
+  }
+  
+  .input-block input {
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #dddddd;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s linear 0s;
+  }
+  
+  .textarea-block {
+    clear: both;
+    width: 100%;
+    position: relative;
+  }
+  
+  .textarea-block textarea {
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #dddddd;
+    padding: 0px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.2s linear 0s;
+  }
+  
+  .input-block label,
+  .textarea-block label {
+    color: #696969;
+    font-size: 14px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transition: all 0.2s linear 0s;
+  }
+  
+  .textarea-block textarea[required="required"] + label:after,
+  .input-block input[required="required"] + label:after {
+    content: "*";
+  }
+  
+  .neon-button,.neon-button-cancel {
+    border: 0px;
+    outline: 0px;
+    color: #fff;
+    background-color: #fe7f00;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    padding: 20px 40px;
+    border-radius: 100px;
+    margin: 40px auto;
+    display: block;
+    cursor: pointer;
+    transition: all 0.3s linear 0s;
+  }
+  
+  .neon-button:hover {
+    background-color: #93f600;
+  }
+  
+  .neon-button:active {
+    animation: btn-animation 0.2s linear 0s alternate 2;
+  }
+  
+  .neon-button.cancel:hover {
+    background-color: #f10708; 
+  }
+  
+  
+  @keyframes btn-animation {
+    from {
+      transform: scale(1);
+    }
+    
+    to {
+      transform: scale(0.95);
+    }
+  }
+  
+  form button[type="submit"]:active {
+    animation: btn-animation 0.2s linear 0s alternate 2;
+  }
+  
+  form button[type="submit"]:hover {
+    background-color: #93f600;
+  }
+  
+  .input-block input:focus + label,
+  .textarea-block textarea:focus + label,
+  .input-block input.active + label,
+  .textarea-block textarea.active + label {
+    top: -30px;
+  }
+  
+  .input-block .border,
+  .textarea-block .border {
+    position: absolute;
+    width: 0px;
+    height: 2px;
+    left: 0px;
+    background: linear-gradient(to right, #f10708 0%,#870804 100%); 
+    transition: all 0.2s linear 0s;
+  }
+  
+  .input-block .border {
+    bottom: 0px;
+  }
+  
+  .textarea-block .border {
+    bottom: 5px;
+  }
+  
+  .input-block input:focus + label + .border,
+  .textarea-block textarea:focus + label + .border,
+  .input-block input.active + label + .border,
+  .textarea-block textarea.active + label + .border {
+    width: 100%;
+  }
+  
+  .input-block input.active + label + .border,
+  .textarea-block textarea.active + label + .border {
+    background: linear-gradient(to right, #1ebf05 0%,#013d07 100%);
+  }
+  
