@@ -19,6 +19,10 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const ageIsNumber = /^\d+$/.test(formData.age) && parseInt(formData.age) >= 0;
+  const phoneNumberIsValid = /^\d{9}$/.test(formData.phoneNumber);
+  const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
+  const formattedPhoneNumber = cleanedPhoneNumber.replace(/(\d{3})(?=\d)/g, '$1-');
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -31,29 +35,49 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === 'age' || name === 'phoneNumber') {
+      if (/^\d+$/.test(value)) {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    axios
-      .post('http://127.0.0.1:5000/api/customer', formData)
-      .then((response) => {
-        console.log('Nowy użytkownik został dodany:', response.data);
-        setSuccessMessage('Nowy użytkownik został dodany.');
-        setErrorMessage(null);
-        onCustomerAdded(response.data.customer);
-        closeModal();
-      })
-      .catch((error) => {
-        console.error('Błąd podczas dodawania użytkownika:', error);
-        setErrorMessage('Wystąpił błąd podczas dodawania użytkownika.');
-        setSuccessMessage(null);
-      });
+    if (!ageIsNumber) {
+      setErrorMessage('Wprowadź poprawny wiek ');
+      setSuccessMessage(null);
+    } else if (!phoneNumberIsValid) {
+      setErrorMessage('Wprowadź poprawny numer telefonu (9 cyfr).');
+      setSuccessMessage(null);
+    } else {
+      const dataToSend = {
+        ...formData,
+        phoneNumber: formattedPhoneNumber,
+      };
+      axios
+        .post('http://127.0.0.1:5000/api/customer', dataToSend)
+        .then((response) => {
+          console.log('Nowy użytkownik został dodany:', response.data);
+          setSuccessMessage('Nowy użytkownik został dodany.');
+          setErrorMessage(null);
+          onCustomerAdded(response.data.customer);
+          closeModal();
+        })
+        .catch((error) => {
+          console.error('Błąd podczas dodawania użytkownika:', error);
+          setErrorMessage('Wystąpił błąd podczas dodawania użytkownika.');
+          setSuccessMessage(null);
+        });
+    }
   };
 
   const clearForm = () => {
@@ -108,7 +132,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
           </div>
           <div className="input-block">
             <input
-              type="number"
+              type="text"
               id="age"
               name="age"
               value={formData.age}
@@ -132,7 +156,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded }) => {
           </div>
           <div className="input-block">
             <input
-              type="tel"
+              type="text"
               id="phoneNumber"
               name="phoneNumber"
               value={formData.phoneNumber}
