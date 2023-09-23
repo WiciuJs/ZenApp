@@ -12,36 +12,22 @@ const CustomerListView: React.FC = () => {
   const [customerToEdit, setCustomerToEdit] = useState<Customer | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const customersPerPage = 10;
-  const indexOfLastCustomer = currentPage * customersPerPage;
-  const indexOfFirstCustomer = indexOfLastCustomer - customersPerPage;
-
-  const filteredCustomers = customers.filter((customer) => {
-    const { name, surname, phoneNumber, mail } = customer;
-    const lowerSearchTerm = searchTerm.toLowerCase();
-    return (
-      name.toLowerCase().includes(lowerSearchTerm) ||
-      surname.toLowerCase().includes(lowerSearchTerm) ||
-      phoneNumber.toLowerCase().includes(lowerSearchTerm) ||
-      mail.toLowerCase().includes(lowerSearchTerm)
-    );
-  });
-
-  const currentCustomers = filteredCustomers.slice(indexOfFirstCustomer, indexOfLastCustomer);
-
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/api/customer')
+    fetchCustomers();
+  }, [currentPage]);
+
+  const fetchCustomers = () => {
+    axios.get(`http://127.0.0.1:5000/api/customer?page=${currentPage}`)
       .then((res) => {
-        setCustomers(res.data);
+        setCustomers(res.data.customers);
+        setTotalPages(res.data.totalPages);
       })
       .catch((error) => {
         console.error('Błąd podczas pobierania użytkowników:', error);
       });
-  }, []);
+  };
 
   const handleCustomerAdded = (newCustomer: Customer) => {
     setCustomers([...customers, newCustomer]);
@@ -76,6 +62,21 @@ const CustomerListView: React.FC = () => {
       });
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const filteredCustomers = customers.filter((customer) => {
+    const { name, surname, phoneNumber, mail } = customer;
+    const lowerSearchTerm = searchTerm.toLowerCase();
+    return (
+      name.toLowerCase().includes(lowerSearchTerm) ||
+      surname.toLowerCase().includes(lowerSearchTerm) ||
+      phoneNumber.toLowerCase().includes(lowerSearchTerm) ||
+      mail.toLowerCase().includes(lowerSearchTerm)
+    );
+  });
+
   return (
     <div className="customer-view">
       <div className="customer-form">
@@ -106,7 +107,7 @@ const CustomerListView: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {currentCustomers.map((customer) => (
+            {filteredCustomers.map((customer) => (
               <tr key={customer._id}>
                 <td>{customer.name}</td>
                 <td>{customer.surname}</td>
@@ -140,10 +141,12 @@ const CustomerListView: React.FC = () => {
         )}
         <div className="pagination">
           <ul>
-            {Array.from({ length: Math.ceil(filteredCustomers.length / customersPerPage) }).map((_, index) => (
-              <li key={index} onClick={() => paginate(index + 1)}>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <li
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={currentPage === index + 1 ? "active" : ""}>
                 {index + 1}
-                <div className="bar"></div>
               </li>
             ))}
           </ul>
@@ -152,4 +155,5 @@ const CustomerListView: React.FC = () => {
     </div>
   );
 };
+
 export default CustomerListView;

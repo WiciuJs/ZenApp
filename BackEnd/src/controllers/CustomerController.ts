@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Customer from '../models/CustomersModel';
-//Działa
 class CustomerController {
   async create(req: Request, res: Response) {
     try {
@@ -27,18 +26,33 @@ class CustomerController {
       if (id) {
         const customer = await Customer.findById(id);
         if (!customer) {
-          return res.status(404).json({ error: 'Użytkownik nie znaleziony' });
+          return res.status(404).json({ error: "Użytkownik nie znaleziony" });
         }
         res.json(customer);
       } else {
-        const customer = await Customer.find();
-        res.json(customer);
+        const page = parseInt(req.query.page as string) || 1;
+        const perPage = 10;
+
+        const customers = await Customer.find({})
+          .skip((page - 1) * perPage)
+          .limit(perPage)
+          .sort({ createdAt: -1 });
+
+        const totalCustomers = await Customer.countDocuments();
+
+        return res.status(200).json({
+          customers,
+          totalPages: Math.ceil(totalCustomers / perPage),
+          currentPage: page,
+        });
       }
     } catch (error: any) {
-      res.status(500).json({ error: 'Wystąpił błąd podczas pobierania użytkowników', details: error.message });
+      res.status(500).json({
+        error: "Wystąpił błąd podczas pobierania użytkowników",
+        details: error.message,
+      });
     }
   }
-// Też nie działa..... 
   async update(req: Request, res: Response) {
     const { id } = req.params;
     try {
@@ -52,7 +66,6 @@ class CustomerController {
     }
   }
 
-//Działa
   async delete(req: Request, res: Response) {
     try {
       const { id } = req.params;
