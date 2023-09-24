@@ -49,8 +49,13 @@ const CustomerListView: React.FC = () => {
   };
 
   const handleSaveCustomer = (updatedCustomer: Customer) => {
+    if (!updatedCustomer) {
+      return;
+    }
+  
     axios.put(`http://127.0.0.1:5000/api/customer/${updatedCustomer._id}`, updatedCustomer)
       .then(() => {
+        fetchCustomers();
         setCustomers(customers.map(customer =>
           customer._id === updatedCustomer._id ? updatedCustomer : customer
         ));
@@ -61,7 +66,6 @@ const CustomerListView: React.FC = () => {
         console.error('Błąd podczas aktualizacji użytkownika:', error);
       });
   };
-
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };

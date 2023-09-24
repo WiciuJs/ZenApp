@@ -4,6 +4,10 @@ class CustomerController {
   async create(req: Request, res: Response) {
     try {
       const { name, surname, age, comments, mail, phoneNumber } = req.body;
+
+      if (age < 0 || age > 100) {
+        return res.status(400).json({ error: 'Błedny Wiek' });
+      }
       const newCustomer = new Customer({
         name,
         surname,

@@ -15,6 +15,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
     mail: '',
     phoneNumber: '',
   });
+
   const clearForm = () => {
     setFormData({
       name: '',
@@ -26,14 +27,11 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
     });
   };
 
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const ageIsNumber = /^\d+$/.test(formData.age) && parseInt(formData.age) >= 0;
-  const phoneNumberIsValid = /^\d{9}$/.test(formData.phoneNumber);
-  const cleanedPhoneNumber = formData.phoneNumber.replace(/[^0-9]/g, '');
-  const formattedPhoneNumber = cleanedPhoneNumber.replace(/(\d{3})(?=\d)/g, '-');
+
+  const isAgeValid = (age: number) => age >= 0 && age <= 100;
 
   useEffect(() => {
     if (customerToEdit) {
@@ -57,10 +55,10 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
     clearForm();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === 'age' || name === 'phoneNumber') {
-      if (/^\d+$/.test(value)) {
+    if (name === 'age') {
+      if (/^\d+$/.test(value) && isAgeValid(parseInt(value))) {
         setFormData({
           ...formData,
           [name]: value,
@@ -76,17 +74,11 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!ageIsNumber) {
-      setErrorMessage('Wprowadź poprawny wiek');
-      setSuccessMessage(null);
-    } else if (!phoneNumberIsValid) {
-      setErrorMessage('Wprowadź poprawny numer telefonu (9 cyfr).');
+    if (!isAgeValid(parseInt(formData.age))) {
+      setErrorMessage('Wprowadź poprawny wiek (0-100)');
       setSuccessMessage(null);
     } else {
-      const dataToSend = {
-        ...formData,
-        phoneNumber: formattedPhoneNumber,
-      };
+      const dataToSend = { ...formData };
 
       if (customerToEdit) {
         axios
@@ -97,6 +89,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
             setErrorMessage(null);
             onCustomerAdded(response.data.customer);
             closeModal();
+            
           })
           .catch((error) => {
             console.error('Błąd podczas aktualizacji klienta:', error);
@@ -121,6 +114,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
       }
     }
   };
+
   return (
     <div className="customer-form">
       <button onClick={openModal} className="neon-button">
@@ -201,6 +195,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
               id="comments"
               name="comments"
               value={formData.comments}
+              onChange={handleChange}
             />
             <label htmlFor="comments">Komentarze:</label>
             <div className="border"></div>

@@ -6,6 +6,7 @@ body {
 .container {
     width: 1140px;
     margin: 50px auto;
+  
 }
 
 .clear:after {
@@ -32,6 +33,7 @@ form {
     margin-right: 3.3%;
     position: relative;
     margin-bottom: 60px;
+    
 }
 
 .input-block:nth-child(3n) {
@@ -52,6 +54,7 @@ form {
     clear: both;
     width: 100%;
     position: relative;
+    
 }
 
 .textarea-block textarea {
@@ -64,6 +67,7 @@ form {
     font-size: 16px;
     font-family: inherit;
     transition: all 0.2s linear 0s;
+   
 }
 
 .input-block label,
@@ -75,6 +79,9 @@ form {
     top: 0px;
     left: 0px;
     transition: all 0.2s linear 0s;
+    transform: translateY(-100%);
+    pointer-events: none;
+    
 }
 
 .textarea-block textarea[required="required"]+label:after,
@@ -146,6 +153,7 @@ form button[type="submit"]:hover {
     left: 0px;
     background: linear-gradient(to right, #f10708 0%, #870804 100%);
     transition: all 0.2s linear 0s;
+    pointer-events: none;
 }
 
 .input-block .border {
