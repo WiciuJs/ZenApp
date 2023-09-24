@@ -8,6 +8,7 @@ import { Customer } from '../Interface/Interface';
 
 const CustomerListView: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
+  const [searchResults, setSearchResults] = useState<Customer[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [customerToEdit, setCustomerToEdit] = useState<Customer | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -16,17 +17,30 @@ const CustomerListView: React.FC = () => {
 
   useEffect(() => {
     fetchCustomers();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const fetchCustomers = () => {
-    axios.get(`http://127.0.0.1:5000/api/customer?page=${currentPage}`)
-      .then((res) => {
-        setCustomers(res.data.customers);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((error) => {
-        console.error('Błąd podczas pobierania użytkowników:', error);
-      });
+    if (searchTerm) {
+      axios
+        .get(`http://127.0.0.1:5000/api/customer/search?searchTerm=${searchTerm}&page=${currentPage}`)
+        .then((res) => {
+          setSearchResults(res.data.customers);
+          setTotalPages(res.data.totalPages);
+        })
+        .catch((error) => {
+          console.error('Błąd podczas wyszukiwania użytkowników:', error);
+        });
+    } else {
+      axios
+        .get(`http://127.0.0.1:5000/api/customer?page=${currentPage}`)
+        .then((res) => {
+          setCustomers(res.data.customers);
+          setTotalPages(res.data.totalPages);
+        })
+        .catch((error) => {
+          console.error('Błąd podczas pobierania użytkowników:', error);
+        });
+    }
   };
 
   const handleCustomerAdded = (newCustomer: Customer) => {
@@ -52,13 +66,10 @@ const CustomerListView: React.FC = () => {
     if (!updatedCustomer) {
       return;
     }
-  
+
     axios.put(`http://127.0.0.1:5000/api/customer/${updatedCustomer._id}`, updatedCustomer)
       .then(() => {
         fetchCustomers();
-        setCustomers(customers.map(customer =>
-          customer._id === updatedCustomer._id ? updatedCustomer : customer
-        ));
         setCustomerToEdit(null);
         setIsEditMode(false);
       })
@@ -66,20 +77,12 @@ const CustomerListView: React.FC = () => {
         console.error('Błąd podczas aktualizacji użytkownika:', error);
       });
   };
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const filteredCustomers = customers.filter((customer) => {
-    const { name, surname, phoneNumber, mail } = customer;
-    const lowerSearchTerm = searchTerm.toLowerCase();
-    return (
-      name.toLowerCase().includes(lowerSearchTerm) ||
-      surname.toLowerCase().includes(lowerSearchTerm) ||
-      phoneNumber.toLowerCase().includes(lowerSearchTerm) ||
-      mail.toLowerCase().includes(lowerSearchTerm)
-    );
-  });
+  const displayedCustomers = searchTerm ? searchResults : customers;
 
   return (
     <div className="customer-view">
@@ -111,7 +114,7 @@ const CustomerListView: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredCustomers.map((customer) => (
+            {displayedCustomers.map((customer) => (
               <tr key={customer._id}>
                 <td>{customer.name}</td>
                 <td>{customer.surname}</td>
@@ -149,7 +152,8 @@ const CustomerListView: React.FC = () => {
               <li
                 key={index}
                 onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? "active" : ""}>
+                className={currentPage === index + 1 ? "active" : ""}
+              >
                 {index + 1}
               </li>
             ))}

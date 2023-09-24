@@ -8,5 +8,6 @@ router.get('/customer', CustomerController.getAllCustomers);
 router.get('/customer/:id', CustomerController.getAllCustomers);
 router.put('/customer/:id', CustomerController.update);
 router.delete('/customer/:id', CustomerController.delete);
+router.get('/search', CustomerController.searchCustomer);
 
 export default router;

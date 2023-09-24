@@ -82,6 +82,40 @@ class CustomerController {
       res.status(500).json({ error: 'Wystąpił błąd podczas usuwania użytkownika', details: error.message });
     }
   }
+  async searchCustomer(req: Request, res: Response) {
+    try {
+      const searchTerm = req.query.searchTerm as string;
+      const page = parseInt(req.query.page as string) || 1;
+      const perPage = 10;
+  
+      const query = {
+        $or: [
+          { name: { $regex: searchTerm, $options: 'i' } }, 
+          { surname: { $regex: searchTerm, $options: 'i' } }, 
+          { phoneNumber: { $regex: searchTerm, $options: 'i' } }, 
+          { mail: { $regex: searchTerm, $options: 'i' } }, 
+        ],
+      };
+  
+      const customers = await Customer.find(query)
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .sort({ createdAt: -1 });
+  
+      const totalCustomers = await Customer.countDocuments(query);
+  
+      return res.status(200).json({
+        customers,
+        totalPages: Math.ceil(totalCustomers / perPage),
+        currentPage: page,
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        error: 'Wystąpił błąd podczas wyszukiwania użytkowników',
+        details: error.message,
+      });
+    }
+  }
 }
 
 export default new CustomerController();
