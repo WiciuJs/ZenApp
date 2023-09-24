@@ -23,3 +23,4 @@ export interface CustomerFormProps {
 export interface ActionCustomerProps {
     onCustomerAdded: (newCustomer: Customer) => void;
 }
+

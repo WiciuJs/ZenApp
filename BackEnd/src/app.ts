@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import registrationRoutes from './routes/registrationRoutes';
-import customersRoutes from './routes/CustomersRoutes';
+import customersRoutes from './routes/customersRoutes';
+import authRoutes from './routes/authRoutes';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/ZenApp', {
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use('/api/auth', authRoutes);
 app.use('/api', registrationRoutes);
 app.use('/api', customersRoutes);
 
