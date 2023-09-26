@@ -1,76 +1,109 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
+interface AuthProps {
+  onLogin: (token: string) => void;
+}
 
-const Login: React.FC = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const { user, login } = useAuth();
-    const navigate = useNavigate();
+const Auth: React.FC<AuthProps> = ({ onLogin }) => {
+  const navigate = useNavigate();
 
-    const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(e.target.value);
-    };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [message, setMessage] = useState('');
 
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    };
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 10000);
 
-    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
-        try {
-            const response = await fetch("http://127.0.0.1:5000/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-            if (response.ok) {
-                const data = await response.json();
+    try {
+      if (isRegistering) {
+        const response = await axios.post('http://127.0.0.1:5000/api/register', {
+          username,
+          password,
+        });
 
-                login(username, password);
-
-                console.log("Zalogowano jako:", data.user.username);
-
-                if (user) {
-                    navigate("/dashboard");
-                }
-            } else {
-                console.error("Błąd logowania");
-            }
-        } catch (error) {
-            console.error("Błąd logowania:", error);
+        if (response.status === 201) {
+          setMessage('Rejestracja udana. Możesz teraz się zalogować.');
+        } else if (response.status === 400 && response.data.message === 'User already exists') {
+          setMessage('Użytkownik o takiej nazwie już istnieje.');
+        } else {
+          setMessage('Błąd podczas rejestracji. Spróbuj ponownie.');
         }
-    };
+      } else {
+        const response = await axios.post('http://127.0.0.1:5000/api/login', {
+          username,
+          password,
+        });
 
-    return (
-        <div className="App">
-            <form onSubmit={handleLogin}>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    required
-                />
-                <label>Login</label>
-                <small>Login</small>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                    required
-                />
-                <label>Hasło</label>
-                <small>Hasło</small>
+        if (response.status === 200) {
+          onLogin(response.data.token);
+          navigate('/client-list');
+        } else {
+          setMessage('Błąd uwierzytelniania. Sprawdź dane logowania.');
+        }
+      }
+    } catch (error: any) {
+      console.error('Authentication error:', error.message);
+      setMessage('Błąd uwierzytelniania !');
+    }
+  };
 
-                <input type="submit" value="Zaloguj się" />
-            </form>
+  return (
+    <div className="auth-container">
+      <h2>{isRegistering ? 'Rejestracja' : 'Logowanie'}</h2>
+      {message && <p className="message">{message}</p>}
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="username" className="form-label">
+            Nazwa użytkownika:
+          </label>
+          <input
+            type="text"
+            id="username"
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
-    );
+        <div className="mb-3">
+          <label htmlFor="password" className="form-label">
+            Hasło:
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="form-control"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          {isRegistering ? 'Zarejestruj' : 'Zaloguj'}
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary ml-2"
+          onClick={() => setIsRegistering(!isRegistering)}
+        >
+          {isRegistering ? 'Przejdź do logowania' : 'Przejdź do rejestracji'}
+        </button>
+      </form>
+    </div>
+  );
 };
 
-export default Login;
+export default Auth;

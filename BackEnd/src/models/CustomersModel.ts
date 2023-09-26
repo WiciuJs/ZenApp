@@ -25,10 +25,7 @@ const CustomerSchema: Schema<ICustomer> = new Schema<ICustomer>({
     type: String,
     required: true,
     unique: true,
-    validate: {
-      validator: (value: string) => /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(value),
-      message: 'Numer telefonu jest nieprawidłowy.',
-    },
+   
   },
   registrations: [{ type: Schema.Types.ObjectId, ref: 'Registration' }],
 });

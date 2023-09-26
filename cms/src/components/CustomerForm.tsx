@@ -58,7 +58,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === 'age') {
-      if (/^\d+$/.test(value) && isAgeValid(parseInt(value))) {
+      if (isAgeValid(parseInt(value)) || value === "") {
         setFormData({
           ...formData,
           [name]: value,
@@ -89,7 +89,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
             setErrorMessage(null);
             onCustomerAdded(response.data.customer);
             closeModal();
-            
+
           })
           .catch((error) => {
             console.error('Błąd podczas aktualizacji klienta:', error);

@@ -1,13 +1,14 @@
-import "../styles/Navigation.scss";
-import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { Link } from 'react-router-dom';
+import '../styles/Navigation.scss';
 
-function Navigation() {
-  const { user, logout } = useAuth();
+interface NavigationProps {
+  user: any; 
+  logout: () => void; 
+}
 
+function Navigation({ user, logout }: NavigationProps) {
   return (
     <div className="Navigation">
-
       {user ? (
         <>
           <Link to="/calendar" className="Navigation-item">
