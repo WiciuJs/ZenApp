@@ -14,8 +14,7 @@ class AuthController {
         return res.status(400).json({ message: 'Użytkownik o tej nazwie już istnieje' });
       }
   
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ username, password: hashedPassword });
+      const newUser = new User({ username, password });
       await newUser.save();
   
       res.status(201).json({ message: 'Rejestracja udana' });

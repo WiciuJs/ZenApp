@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CalendarView from './views/CalendarView';
 import Voucher from './components/Voucher';
@@ -19,19 +19,51 @@ function App() {
     localStorage.removeItem('token');
   };
 
-  const user = token ? { username: 'exampleUser' } : null; 
+  const user = token ? { username: 'exampleUser' } : null;
+
+  const ProtectedRoute = ({
+    token,
+    children,
+  }: {
+    token: string;
+    children: React.ReactNode;
+  }) => {
+    if (!token) {
+      return <Navigate to="/login" replace />;
+    }
+
+    return <>{children}</>;
+  };
 
   return (
     <Router>
       <div className="App">
         <Navigation user={user} logout={handleLogout} />
         <Routes>
-          <Route path="/calendar" element={<CalendarView />} />
-          <Route path="/voucher" element={<Voucher />} />
-          <Route path="/client-list" element={<UserListView />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
-            path="/login"
-            element={<Login onLogin={handleLogin} />}
+            path="/calendar"
+            element={
+              <ProtectedRoute token={token}>
+                <CalendarView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/voucher"
+            element={
+              <ProtectedRoute token={token}>
+                <Voucher />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/client-list"
+            element={
+              <ProtectedRoute token={token}>
+                <UserListView />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </div>
