@@ -5,6 +5,7 @@ import CalendarView from './views/CalendarView';
 import Voucher from './components/Voucher';
 import UserListView from './views/CustomerListView';
 import Login from './components/Login';
+import "../src/styles/App.scss";
 
 function App() {
   const [token, setToken] = useState<string>(localStorage.getItem('token') || '');
@@ -38,7 +39,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navigation user={user} logout={handleLogout} />
+        {token ? <Navigation user={user} logout={handleLogout} /> : null}
         <Routes>
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route

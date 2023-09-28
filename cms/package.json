@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.20",
     "@types/react-big-calendar": "^1.6.4",
     "@types/react-modal": "^3.16.0"
   }
