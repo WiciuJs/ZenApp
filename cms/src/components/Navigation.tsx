@@ -65,7 +65,7 @@ function Navigation({ user, logout }: NavigationProps) {
               className={`nav-link Navigation-link${activeLink === '/calendar' ? ' active' : ''}`}
               onClick={() => handleLinkClick('/calendar')}
             >
-              <i className="far fa-calendar-alt"></i> Calendar
+              <i className="far fa-calendar-alt"></i> Kalendarz
             </Link>
           </li>
           <li className="nav-item">
