@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import '../styles/LoginForm.scss';
 
 interface AuthProps {
   onLogin: (token: string) => void;
@@ -61,47 +62,44 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>{isRegistering ? 'Rejestracja' : 'Logowanie'}</h2>
-      {message && <p className="message">{message}</p>}
-      <form onSubmit={handleSubmit}>
+    <div id="login">
+      <form className="form" onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">
+          <label htmlFor="username" className="input formLabel">
             Nazwa użytkownika:
           </label>
           <input
             type="text"
             id="username"
-            className="form-control"
+            className="input formControl"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="password" className="form-label">
+          <label htmlFor="password" className="input formLabel">
             Hasło:
           </label>
           <input
             type="password"
             id="password"
-            className="form-control"
+            className="input formControl"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          {isRegistering ? 'Zarejestruj' : 'Zaloguj'}
-        </button>
+        <input type="submit" className="input input[type='submit']" value={isRegistering ? 'Zarejestruj' : 'Zaloguj'} />
         <button
           type="button"
-          className="btn btn-secondary ml-2"
+          className="input input[type='submit'] input[type='submit']:hover"
           onClick={() => setIsRegistering(!isRegistering)}
         >
           {isRegistering ? 'Przejdź do logowania' : 'Przejdź do rejestracji'}
         </button>
       </form>
+      {message && <p className="spacer message">{message}</p>}
     </div>
   );
 };

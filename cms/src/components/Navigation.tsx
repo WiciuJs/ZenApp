@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Navigation.scss';
+import '../styles/LoginForm.scss';
 
 interface NavigationProps {
   user: { username: string } | null;

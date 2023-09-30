@@ -5,7 +5,8 @@ import CalendarView from './views/CalendarView';
 import Voucher from './components/Voucher';
 import UserListView from './views/CustomerListView';
 import Login from './components/Login';
-import "../src/styles/App.scss";
+
+
 
 function App() {
   const [token, setToken] = useState<string>(localStorage.getItem('token') || '');
