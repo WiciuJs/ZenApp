@@ -32,7 +32,7 @@ export const getProductById = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteSupplier = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response) => {
     try {
         const deletedSupplier = await ProductModel.findByIdAndDelete(req.params.id);
         if (!deletedSupplier) {

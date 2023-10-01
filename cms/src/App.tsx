@@ -5,6 +5,8 @@ import CalendarView from './views/CalendarView';
 import Voucher from './components/Voucher';
 import UserListView from './views/CustomerListView';
 import Login from './components/Login';
+import OrderView from '../src/views/Orderview';
+
 
 
 
@@ -64,6 +66,14 @@ function App() {
             element={
               <ProtectedRoute token={token}>
                 <UserListView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/supplies"
+            element={
+              <ProtectedRoute token={token}>
+                <OrderView />
               </ProtectedRoute>
             }
           />
