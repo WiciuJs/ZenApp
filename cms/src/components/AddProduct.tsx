@@ -81,7 +81,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
                         onChange={handleProductNameChange}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" >
                     Dodaj produkt
                 </button>
             </form>

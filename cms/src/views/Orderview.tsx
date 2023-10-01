@@ -32,7 +32,7 @@ function OrderView() {
             className={`nav-link ${activeTab === 'addProduct' ? 'active' : ''}`}
             onClick={() => handleTabClick('addProduct')}
           >
-            Dodanie Produktu
+            Produkty
           </Link>
         </li>
         <li className="nav-item">
@@ -41,7 +41,7 @@ function OrderView() {
             className={`nav-link ${activeTab === 'addSupplier' ? 'active' : ''}`}
             onClick={() => handleTabClick('addSupplier')}
           >
-            Dodanie Dostawcy
+            Dostawcy
           </Link>
         </li>
       </ul>

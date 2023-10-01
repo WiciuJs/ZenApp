@@ -144,21 +144,20 @@ function OrderForm() {
                         />
                     </div>
                 )}
-
                 {step > 1 && (
-                    <button type="button" className="btn btn-secondary" onClick={handlePrevStep}>
+                    <button type="button"  onClick={handlePrevStep}>
                         Poprzedni krok
                     </button>
                 )}
 
                 {step < 3 && (
-                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>
+                    <button type="button"  onClick={handleNextStep}>
                         Następny krok
                     </button>
                 )}
 
                 {step === 3 && (
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" >
                         Złóż zamówienie
                     </button>
                 )}
