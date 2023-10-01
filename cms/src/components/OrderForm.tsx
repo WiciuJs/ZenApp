@@ -1,188 +1,179 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/OrderForm.scss';
-
-interface Product {
-  id: number;
-  name: string;
-}
-
-interface Supplier {
-  id: number;
-  name: string;
-}
+import { Supplier , Product} from '../Interface/Interface';
 
 function OrderForm() {
-  const [productName, setProductName] = useState<string>('');
-  const [productList, setProductList] = useState<Product[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [productName, setProductName] = useState<string>('');
+    const [productList, setProductList] = useState<Product[]>([]);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const [supplierName, setSupplierName] = useState<string>('');
-  const [supplierList, setSupplierList] = useState<Supplier[]>([]);
-  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+    const [supplierName, setSupplierName] = useState<string>('');
+    const [supplierList, setSupplierList] = useState<Supplier[]>([]);
+    const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
 
-  const [quantity, setQuantity] = useState<string>('');
+    const [quantity, setQuantity] = useState<string>('');
 
-  const [step, setStep] = useState<number>(1);
+    const [step, setStep] = useState<number>(1);
 
-  const [submittedOrder, setSubmittedOrder] = useState<{
-    product: Product | null;
-    supplier: Supplier | null;
-    quantity: string;
-  } | null>(null);
+    const [submittedOrder, setSubmittedOrder] = useState<{
+        product: Product | null;
+        supplier: Supplier | null;
+        quantity: string;
+    } | null>(null);
 
-  useEffect(() => {
-    if (productName) {
-      axios
-        .get(`http://127.0.0.1:5000/api/product/?name=${productName}`)
-        .then((response) => {
-          const products: Product[] = response.data;
-          setProductList(products);
-        })
-        .catch((error) => {
-          console.error('Błąd podczas pobierania produktów:', error);
-          setProductList([]);
-        });
-    } else {
-      setProductList([]);
-    }
-    if (supplierName) {
-      axios
-        .get(`http://127.0.0.1:5000/api/suppliers/?name=${supplierName}`)
-        .then((response) => {
-          const suppliers: Supplier[] = response.data;
-          setSupplierList(suppliers);
-        })
-        .catch((error) => {
-          console.error('Błąd podczas pobierania dostawców:', error);
-          setSupplierList([]);
-        });
-    } else {
-      setSupplierList([]);
-    }
-  }, [productName, supplierName]);
+    useEffect(() => {
+        if (productName) {
+            axios
+                .get(`http://127.0.0.1:5000/api/product/?name=${productName}`)
+                .then((response) => {
+                    const products: Product[] = response.data;
+                    setProductList(products);
+                })
+                .catch((error) => {
+                    console.error('Błąd podczas pobierania produktów:', error);
+                    setProductList([]);
+                });
+        } else {
+            setProductList([]);
+        }
+        if (supplierName) {
+            axios
+                .get(`http://127.0.0.1:5000/api/suppliers/?name=${supplierName}`)
+                .then((response) => {
+                    const suppliers: Supplier[] = response.data;
+                    setSupplierList(suppliers);
+                })
+                .catch((error) => {
+                    console.error('Błąd podczas pobierania dostawców:', error);
+                    setSupplierList([]);
+                });
+        } else {
+            setSupplierList([]);
+        }
+    }, [productName, supplierName]);
 
-  const handleProductSelect = (product: Product) => {
-    setSelectedProduct(product);
-    setProductName(product.name);
-  };
-
-  const handleSupplierSelect = (supplier: Supplier) => {
-    setSelectedSupplier(supplier);
-    setSupplierName(supplier.name);
-  };
-
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(e.target.value);
-  };
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handlePrevStep = () => {
-    setStep(step - 1);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const orderData = {
-      product: selectedProduct,
-      supplier: selectedSupplier,
-      quantity,
+    const handleProductSelect = (product: Product) => {
+        setSelectedProduct(product);
+        setProductName(product.name);
     };
-    setSubmittedOrder(orderData);
 
-    console.log('Wybrane dane zamówienia:');
-    console.log('Produkt:', selectedProduct);
-    console.log('Dostawca:', selectedSupplier);
-    console.log('Ilość:', quantity);
-  };
+    const handleSupplierSelect = (supplier: Supplier) => {
+        setSelectedSupplier(supplier);
+        setSupplierName(supplier.name);
+    };
 
-  return (
-    <div>
-      <h2>Formularz Zamówienia - Krok {step}</h2>
-      <form onSubmit={handleSubmit}>
-        {step === 1 && (
-          <div className="form-group">
-            <label>Nazwa Produktu:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-            />
-            <ul>
-              {productList.map((product) => (
-                <li key={product.id} onClick={() => handleProductSelect(product)}>
-                  {product.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuantity(e.target.value);
+    };
 
-        {step === 2 && (
-          <div className="form-group">
-            <label>Nazwa Dostawcy:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={supplierName}
-              onChange={(e) => setSupplierName(e.target.value)}
-            />
-            <ul>
-              {supplierList.map((supplier) => (
-                <li key={supplier.id} onClick={() => handleSupplierSelect(supplier)}>
-                  {supplier.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+    const handleNextStep = () => {
+        setStep(step + 1);
+    };
 
-        {step === 3 && (
-          <div className="form-group">
-            <label>Ilość:</label>
-            <input
-              type="text"
-              className="form-control"
-              value={quantity}
-              onChange={handleQuantityChange}
-            />
-          </div>
-        )}
+    const handlePrevStep = () => {
+        setStep(step - 1);
+    };
 
-        {step > 1 && (
-          <button type="button" className="btn btn-secondary" onClick={handlePrevStep}>
-            Poprzedni krok
-          </button>
-        )}
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
 
-        {step < 3 && (
-          <button type="button" className="btn btn-primary" onClick={handleNextStep}>
-            Następny krok
-          </button>
-        )}
+        const orderData = {
+            product: selectedProduct,
+            supplier: selectedSupplier,
+            quantity,
+        };
+        setSubmittedOrder(orderData);
 
-        {step === 3 && (
-          <button type="submit" className="btn btn-primary">
-            Złóż zamówienie
-          </button>
-        )}
-      </form>
+        console.log('Wybrane dane zamówienia:');
+        console.log('Produkt:', selectedProduct);
+        console.log('Dostawca:', selectedSupplier);
+        console.log('Ilość:', quantity);
+    };
 
-      {submittedOrder && (
+    return (
         <div>
-          <h3>Podgląd zamówienia:</h3>
-          <p>Produkt: {submittedOrder.product?.name}</p>
-          <p>Dostawca: {submittedOrder.supplier?.name}</p>
-          <p>Ilość: {submittedOrder.quantity}</p>
+            <h2>Formularz Zamówienia - Krok {step}</h2>
+            <form onSubmit={handleSubmit}>
+                {step === 1 && (
+                    <div className="form-group">
+                        <label>Nazwa Produktu:</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={productName}
+                            onChange={(e) => setProductName(e.target.value)}
+                        />
+                        <ul>
+                            {productList.map((product) => (
+                                <li key={product.id} onClick={() => handleProductSelect(product)}>
+                                    {product.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {step === 2 && (
+                    <div className="form-group">
+                        <label>Nazwa Dostawcy:</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={supplierName}
+                            onChange={(e) => setSupplierName(e.target.value)}
+                        />
+                        <ul>
+                            {supplierList.map((supplier) => (
+                                <li key={supplier.id} onClick={() => handleSupplierSelect(supplier)}>
+                                    {supplier.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {step === 3 && (
+                    <div className="form-group">
+                        <label>Ilość:</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={quantity}
+                            onChange={handleQuantityChange}
+                        />
+                    </div>
+                )}
+
+                {step > 1 && (
+                    <button type="button" className="btn btn-secondary" onClick={handlePrevStep}>
+                        Poprzedni krok
+                    </button>
+                )}
+
+                {step < 3 && (
+                    <button type="button" className="btn btn-primary" onClick={handleNextStep}>
+                        Następny krok
+                    </button>
+                )}
+
+                {step === 3 && (
+                    <button type="submit" className="btn btn-primary">
+                        Złóż zamówienie
+                    </button>
+                )}
+            </form>
+
+            {submittedOrder && (
+                <div>
+                    <h3>Podgląd zamówienia:</h3>
+                    <p>Produkt: {submittedOrder.product?.name}</p>
+                    <p>Dostawca: {submittedOrder.supplier?.name}</p>
+                    <p>Ilość: {submittedOrder.quantity}</p>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default OrderForm;
