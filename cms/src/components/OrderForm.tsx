@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/OrderForm.scss';
-import { Supplier , Product} from '../Interface/Interface';
+import { Supplier, Product } from '../Interface/Interface';
 
 function OrderForm() {
     const [productName, setProductName] = useState<string>('');
@@ -106,7 +106,7 @@ function OrderForm() {
                         />
                         <ul>
                             {productList.map((product) => (
-                                <li key={product.id} onClick={() => handleProductSelect(product)}>
+                                <li key={product._id} onClick={() => handleProductSelect(product)}>
                                     {product.name}
                                 </li>
                             ))}
@@ -125,7 +125,7 @@ function OrderForm() {
                         />
                         <ul>
                             {supplierList.map((supplier) => (
-                                <li key={supplier.id} onClick={() => handleSupplierSelect(supplier)}>
+                                <li key={supplier._id} onClick={() => handleSupplierSelect(supplier)}>
                                     {supplier.name}
                                 </li>
                             ))}

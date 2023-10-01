@@ -93,3 +93,30 @@ label {
 .form-control[required="required"]+label:after {
     content: "*";
 }
+
+.add-product-form {
+    margin-bottom: 20px;
+
+}
+
+.product-list {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.product-item button {
+    margin-left: 10px;
+}

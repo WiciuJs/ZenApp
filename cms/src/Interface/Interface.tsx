@@ -25,12 +25,12 @@ export interface ActionCustomerProps {
 }
 
 export interface Product {
-    id: string;
+    _id: string;
     name: string;
 }
 
 export interface Supplier {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     phone?: string;
