@@ -37,3 +37,19 @@ export interface Supplier {
     address?: string;
     nip?: string;
   }
+
+  export interface Registration  {
+    startDate: Date;
+    endDate: Date;
+    duration: number;
+    name: string;
+    customer: string
+  }
+  export interface RegistrationFormData {
+    startDate: string;
+    endDate: string;
+    name: string;
+    customer: string;
+    duration: number;
+  }
+  

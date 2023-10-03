@@ -253,3 +253,53 @@ table th {
     }
   }
 }
+
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.registration-form label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.registration-form input[type="date"],
+.registration-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: 'Inconsolata', monospace;
+}
+
+.registration-button {
+  color: #fff;
+  background-color: #fe7f00;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registration-button:hover {
+  background-color: #ff9a45;
+}
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.5); 
+  align-items: center;
+  justify-content: center;
+}
+
+.ReactModal__Content {
+  background-color: #fff; 
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%; 
+}
