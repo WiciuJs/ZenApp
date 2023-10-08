@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/Navigation.scss';
 import '../styles/LoginForm.scss';
 
 interface NavigationProps {
   user: { username: string } | null;
-  setToken: (token: string) => void;
+  logout: () => void;
 }
 
-function Navigation({ user, setToken }: NavigationProps) {
+function Navigation({ user, logout }: NavigationProps) {
   const [activeLink, setActiveLink] = useState<string>('');
-  const navigate = useNavigate()
 
   useEffect(() => {
     function handleNavigationAnimation() {
@@ -39,12 +38,6 @@ function Navigation({ user, setToken }: NavigationProps) {
 
   const handleLinkClick = (link: string) => {
     setActiveLink(link);
-  };
-
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token');
-    navigate('/login')
   };
 
   return (
@@ -112,7 +105,7 @@ function Navigation({ user, setToken }: NavigationProps) {
             </Link>
           </li>
           <li className="nav-item">
-            <a href="" onClick={handleLogout} className={`nav-link Navigation-link`} style={{ cursor: 'pointer' }}>
+            <a href="" onClick={logout} className={`nav-link Navigation-link`} style={{ cursor: 'pointer' }}>
               Wyloguj się
             </a>
           </li>

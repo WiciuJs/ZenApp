@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import MyCalendar from "../components/MyCalendar";
 import { Event } from "react-big-calendar";
-import { Registration } from "../Interface/Interface";
+
+type Registration = {
+  startDate: Date;
+  endDate: Date;
+  duration: number;
+  name: string;
+};
 
 const CalendarView = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -14,7 +20,7 @@ const CalendarView = () => {
         setRegistrations(data);
         setCalendarEvents(
           data.map((registration: Registration) => ({
-            title: `${registration.name} - ${registration.customer.name} ${registration.customer.surname}`,
+            title: registration.name,
             start: new Date(registration.startDate),
             end: new Date(registration.endDate),
           }))

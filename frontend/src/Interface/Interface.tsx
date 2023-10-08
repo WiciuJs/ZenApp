@@ -43,7 +43,7 @@ export interface Supplier {
     endDate: Date;
     duration: number;
     name: string;
-    customer: Customer
+    customer: string
   }
   export interface RegistrationFormData {
     startDate: string;
