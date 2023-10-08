@@ -9,6 +9,7 @@ interface RegistrationFormProps {
     selectedCustomer: Customer | null;
 }
 
+
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
     onRegistrationSubmit,
     closeRegistrationModal,

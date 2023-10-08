@@ -38,12 +38,12 @@ export interface Supplier {
     nip?: string;
   }
 
-  export interface Registration  {
+  export interface Registration {
     startDate: Date;
     endDate: Date;
     duration: number;
     name: string;
-    customer: string
+    customer: string;
   }
   export interface RegistrationFormData {
     startDate: string;
