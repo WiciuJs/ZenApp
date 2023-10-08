@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import CalendarView from './views/CalendarView';
-import Voucher from './components/Voucher';
-import UserListView from './views/CustomerListView';
-import Login from './components/Login';
-import OrderView from '../src/views/Orderview';
-
-
-
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import Navigation from "./components/Navigation";
+import CalendarView from "./views/CalendarView";
+import Voucher from "./components/Voucher";
+import UserListView from "./views/CustomerListView";
+import Login from "./components/Login";
+import OrderView from "../src/views/Orderview";
 
 function App() {
-  const [token, setToken] = useState<string>(localStorage.getItem('token') || '');
+  const [token, setToken] = useState<string>(
+    localStorage.getItem("token") || ""
+  );
 
   const handleLogin = (newToken: string) => {
     setToken(newToken);
-    localStorage.setItem('token', newToken);
+    localStorage.setItem("token", newToken);
   };
 
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token');
-  };
-
-  const user = token ? { username: 'exampleUser' } : null;
+  const user = token ? { username: "exampleUser" } : null;
 
   const ProtectedRoute = ({
     token,
@@ -42,8 +42,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {token ? <Navigation user={user} logout={handleLogout} /> : null}
+        {token ? <Navigation user={user} setToken={setToken} /> : null}
         <Routes>
+          <Route path="/" element={<Navigate to={"/login"} />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
             path="/calendar"
