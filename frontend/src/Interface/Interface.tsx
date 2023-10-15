@@ -15,7 +15,7 @@ export interface CustomerEditProps {
 }
 
 export interface CustomerFormProps {
-    onCustomerAdded: (newCustomer: Customer) => void;
+    onCustomerAdded: (newCustomer?: Customer) => void;
     initialCustomer?: Customer; 
     customerToEdit?: Customer;
   }
@@ -39,11 +39,12 @@ export interface Supplier {
   }
 
   export interface Registration {
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     duration: number;
     name: string;
-    customer: string;
+    customer: Customer;
+    _id: string;
   }
   export interface RegistrationFormData {
     startDate: string;

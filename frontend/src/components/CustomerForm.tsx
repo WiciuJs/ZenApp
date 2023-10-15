@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import '../styles/CustomerForm.scss';
 import { CustomerFormProps } from '../Interface/Interface';
 
 Modal.setAppElement('#root');
@@ -82,12 +81,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
 
       if (customerToEdit) {
         axios
-          .put(`http://127.0.0.1:5000/api/customer/${customerToEdit._id}`, dataToSend)
+          .put(`http://127.0.0.1:5001/api/customer/${customerToEdit._id}`, dataToSend)
           .then((response) => {
             console.log('Klient został zaktualizowany:', response.data);
             setSuccessMessage('Klient został zaktualizowany.');
             setErrorMessage(null);
-            onCustomerAdded(response.data.customer);
+            onCustomerAdded();
             closeModal();
 
           })
@@ -98,12 +97,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
           });
       } else {
         axios
-          .post('http://127.0.0.1:5000/api/customer', dataToSend)
+          .post('http://127.0.0.1:5001/api/customer', dataToSend)
           .then((response) => {
             console.log('Nowy użytkownik został dodany:', response.data);
             setSuccessMessage('Nowy użytkownik został dodany.');
             setErrorMessage(null);
-            onCustomerAdded(response.data.customer);
+            onCustomerAdded();
             closeModal();
           })
           .catch((error) => {

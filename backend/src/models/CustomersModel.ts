@@ -28,6 +28,8 @@ const CustomerSchema: Schema<ICustomer> = new Schema<ICustomer>({
    
   },
   registrations: [{ type: Schema.Types.ObjectId, ref: 'Registration' }],
+}, {
+  timestamps: true
 });
 
 export default mongoose.model<ICustomer>('Customer', CustomerSchema);

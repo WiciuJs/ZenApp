@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Caveat', cursive;
+    perspective: 1200px;
+}
+
+.circleCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: blinkBorder 1.5s infinite;
+
+    @media screen and (max-width: 450px) {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+    }
+}
+
+
+@keyframes blinkBorder {
+    0% {
+        border: 5px solid transparent;
+    }
+
+    50% {
+        border: 5px solid #90EE90;
+    }
+
+    100% {
+        border: 5px solid transparent;
+    }
+}
+
+.logoLinkContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImage {
+    width: 90%;
+    max-width: 350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputLabel {
+    margin-bottom: 5px;
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.textInput,
+.passwordInput {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    animation: blinkBorder 1.5s infinite;
+    transition: border 0.3s;
+}
+
+.btn.submitButton {
+    margin: 10px;
+    border-radius: 20px;
+    background-color: #90EE90;
+    opacity: 0.9;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn.toggleButton {
+    margin: 10px;
+    border-radius: 20px;
+    opacity: 0.9;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn.submitButton:hover,
+.btn.toggleButton:hover {
+    opacity: 1;
+    background-color: orange;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+
+@keyframes rotateForm {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    100% {
+        transform: rotateY(180deg);
+    }
+}
+
+.rotating {
+    animation: rotateForm 0.8s forwards;
+}
+
+@keyframes blinkBorder {
+
+    0%,
+    100% {
+        border: 1px solid #ccc;
+    }
+
+    50% {
+        border: 1px solid #90EE90;
+    }
+}

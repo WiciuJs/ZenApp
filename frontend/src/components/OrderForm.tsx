@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/OrderForm.scss';
 import { Supplier, Product } from '../Interface/Interface';
 
 function OrderForm() {
@@ -25,7 +24,7 @@ function OrderForm() {
     useEffect(() => {
         if (productName) {
             axios
-                .get(`http://127.0.0.1:5000/api/product/?name=${productName}`)
+                .get(`http://127.0.0.1:5001/api/product/?name=${productName}`)
                 .then((response) => {
                     const products: Product[] = response.data;
                     setProductList(products);
@@ -39,7 +38,7 @@ function OrderForm() {
         }
         if (supplierName) {
             axios
-                .get(`http://127.0.0.1:5000/api/suppliers/?name=${supplierName}`)
+                .get(`http://127.0.0.1:5001/api/suppliers/?name=${supplierName}`)
                 .then((response) => {
                     const suppliers: Supplier[] = response.data;
                     setSupplierList(suppliers);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/LoginForm.scss';
+import styles from '../styles/Login.module.scss';
 
 interface AuthProps {
   onLogin: (token: string) => void;
@@ -14,6 +14,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [message, setMessage] = useState('');
+  const [isRotating, setIsRotating] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -30,7 +31,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
     try {
       if (isRegistering) {
-        const response = await axios.post('http://127.0.0.1:5000/api/register', {
+        const response = await axios.post('http://127.0.0.1:5001/api/register', {
           username,
           password,
         });
@@ -43,7 +44,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           setMessage('Błąd podczas rejestracji. Spróbuj ponownie.');
         }
       } else {
-        const response = await axios.post('http://127.0.0.1:5000/api/login', {
+        const response = await axios.post('http://127.0.0.1:5001/api/login', {
           username,
           password,
         });
@@ -59,49 +60,72 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       console.error('Authentication error:', error.message);
       setMessage('Błąd uwierzytelniania !');
     }
+  }
+
+  const handleToggle = () => {
+    setIsRotating(true);
+    setTimeout(() => {
+      setIsRegistering(!isRegistering);
+      setIsRotating(false);
+    }, 800);
   };
 
   return (
-    <div id="login">
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="username" className="input formLabel">
-            Nazwa użytkownika:
-          </label>
-          <input
-            type="text"
-            id="username"
-            className="input formControl"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className={styles.loginContainer}>
+     <div className={`${styles.circleCard} ${isRotating ? styles.rotating : ''}`}>
+        <div className={styles.logoLinkContainer}>
+          <a href="/" className={styles.logoLink}>
+            <img src="https://i.ibb.co/zFt6TKN/logo-color-preview-rev-1.png" alt="Company Logo" className={styles.logoImage} />
+          </a>
         </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="input formLabel">
-            Hasło:
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="input formControl"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <input type="submit" className="input input[type='submit']" value={isRegistering ? 'Zarejestruj' : 'Zaloguj'} />
-        <button
-          type="button"
-          className="input input[type='submit'] input[type='submit']:hover"
-          onClick={() => setIsRegistering(!isRegistering)}
-        >
-          {isRegistering ? 'Przejdź do logowania' : 'Przejdź do rejestracji'}
-        </button>
-      </form>
-      {message && <p className="spacer message">{message}</p>}
+        <form onSubmit={handleSubmit} className={styles.loginForm}>
+          <div className="form-group">
+            <label htmlFor="username" className={styles.inputLabel}>
+              Nazwa użytkownika:
+            </label>
+            <input
+              type="text"
+              id="username"
+              className={`form-control ${styles.textInput}`}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className={styles.inputLabel}>
+              Hasło:
+            </label>
+            <input
+              type="password"
+              id="password"
+              className={`form-control ${styles.passwordInput}`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <input type="submit" className={`btn ${styles.submitButton}`} value={isRegistering ? 'Zarejestruj' : 'Zaloguj'} />
+          <button
+            type="button"
+            className={`btn ${styles.toggleButton}`}
+            onClick={handleToggle}
+          >
+            {isRegistering ? 'Przejdź do logowania' : 'Przejdź do rejestracji'}
+          </button>
+        </form>
+        {message && <p className={styles.errorMessage}>{message}</p>}
+      </div>
     </div>
   );
 };
 
 export default Auth;
+
+
+
+
+
+
+
+

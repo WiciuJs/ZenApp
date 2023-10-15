@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import '../styles/Voucher.scss';
+
 
 const Voucher = () => {
   const [formData, setFormData] = useState({

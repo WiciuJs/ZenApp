@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/OrderForm.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -26,7 +25,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/products', { name: productName });
+            const response = await axios.post('http://127.0.0.1:5001/api/products', { name: productName });
 
             if (response.status === 201) {
                 const newProduct: Product = response.data;
@@ -44,7 +43,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
     }, []);
 
     const refreshProductList = () => {
-        axios.get('http://127.0.0.1:5000/api/products')
+        axios.get('http://127.0.0.1:5001/api/products')
             .then((response) => {
                 const products: Product[] = response.data;
                 setProducts(products);
@@ -57,7 +56,7 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
 
     const handleDeleteProduct = async (productId: string) => {
         try {
-            const response = await axios.delete(`http://127.0.0.1:5000/api/products/${productId}`);
+            const response = await axios.delete(`http://127.0.0.1:5001/api/products/${productId}`);
             if (response.status === 200) {
                 onDeleteProduct(productId);
                 refreshProductList();

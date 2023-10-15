@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Customer, RegistrationFormData } from "../Interface/Interface";
-import "../styles/CustomerViews.scss";
 
 
 interface RegistrationFormProps {
@@ -48,7 +47,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             <label>
                 Data rozpoczęcia:
                 <input
-                    type="date"
+                    type="datetime-local"
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleInputChange}
@@ -57,7 +56,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             <label>
                 Data zakończenia:
                 <input
-                    type="date"
+                    type="datetime-local"
                     name="endDate"
                     value={formData.endDate}
                     onChange={handleInputChange}

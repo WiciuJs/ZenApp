@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MyCalendar from "../components/MyCalendar";
 import { Event } from "react-big-calendar";
-import { Customer, RegistrationFormData, Registration, } from "../Interface/Interface";
-import RegistrationForm from "../components/CustomerForm";
+import {
+  Customer,
+  RegistrationFormData,
+  Registration,
+} from "../Interface/Interface";
+import RegistrationForm from "../components/RegistrationForm";
+import dayjs from "dayjs";
 
 const CalendarView = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([]);
@@ -13,7 +18,7 @@ const CalendarView = () => {
   const [isRegistrationFormOpen, setIsRegistrationFormOpen] = useState(false);
 
   const getData = () => {
-    fetch("http://localhost:5000/api/registrations")
+    fetch("http://localhost:5001/api/registrations")
       .then((res) => res.json())
       .then((data) => {
         setRegistrations(data);
@@ -41,17 +46,14 @@ const CalendarView = () => {
   };
 
   const handleRegistrationSubmit = (formData: RegistrationFormData) => {
-    getData(); 
-    handleCloseRegistrationForm(); 
+    getData();
+    handleCloseRegistrationForm();
   };
 
   return (
     <>
       <MyCalendar events={calendarEvents} />
       <div>
-        <button onClick={() => handleOpenRegistrationForm(null)}>
-          Dodaj rejestrację
-        </button>
         {isRegistrationFormOpen && (
           <RegistrationForm
             onRegistrationSubmit={handleRegistrationSubmit}
@@ -63,12 +65,11 @@ const CalendarView = () => {
       <div>
         <h2>Lista zarejestrowanych zabiegów:</h2>
         <ul>
-          {registrations.map((registration, index) => (
-            <li key={index}>
-              <div>
-                {registration.customer} - {registration.name} -{" "}
-                {registration.startDate} - {registration.endDate}
-              </div>
+          {registrations.map((registration) => (
+            <li key={registration._id}>
+              {registration.customer.name} {registration.customer.surname} -{" "}
+              {registration.name} - {dayjs(registration.startDate).format('DD.MM.YYYY - HH:mm')} -{" "}
+              {dayjs(registration.endDate).format('HH:mm')}
             </li>
           ))}
         </ul>

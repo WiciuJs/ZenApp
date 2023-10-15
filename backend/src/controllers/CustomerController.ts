@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
-import Customer from '../models/CustomersModel';
+import { Request, Response } from "express";
+import Customer from "../models/CustomersModel";
 class CustomerController {
   async create(req: Request, res: Response) {
     try {
       const { name, surname, age, comments, mail, phoneNumber } = req.body;
 
       if (age < 0 || age > 100) {
-        return res.status(400).json({ error: 'Błedny Wiek' });
+        return res.status(400).json({ error: "Błedny Wiek" });
       }
       const newCustomer = new Customer({
         name,
@@ -18,9 +18,15 @@ class CustomerController {
         registrations: [],
       });
       await newCustomer.save();
-      return res.status(201).json({ message: 'Nowy użytkownik został utworzony', customer: newCustomer });
+      return res.status(201).json({
+        message: "Nowy użytkownik został utworzony",
+        customer: newCustomer,
+      });
     } catch (error: any) {
-      res.status(500).json({ error: 'Wystąpił błąd podczas tworzenia użytkownika', details: error.message });
+      res.status(500).json({
+        error: "Wystąpił błąd podczas tworzenia użytkownika",
+        details: error.message,
+      });
     }
   }
 
@@ -37,12 +43,23 @@ class CustomerController {
         const page = parseInt(req.query.page as string) || 1;
         const perPage = 10;
 
-        const customers = await Customer.find({})
+        const searchQuery = req.query.search
+          ? {
+              $or: [
+                { name: { $regex: req.query.search, $options: "i" } },
+                { surname: { $regex: req.query.search, $options: "i" } },
+                { phoneNumber: { $regex: req.query.search, $options: "i" } },
+                { mail: { $regex: req.query.search, $options: "i" } },
+              ],
+            }
+          : {};
+
+        const customers = await Customer.find(searchQuery)
           .skip((page - 1) * perPage)
           .limit(perPage)
           .sort({ createdAt: -1 });
 
-        const totalCustomers = await Customer.countDocuments();
+        const totalCustomers = await Customer.countDocuments(searchQuery);
 
         return res.status(200).json({
           customers,
@@ -60,13 +77,18 @@ class CustomerController {
   async update(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const updatedCustomer = await Customer.findByIdAndUpdate(id, req.body, { new: true });
+      const updatedCustomer = await Customer.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
       if (!updatedCustomer) {
-        return res.status(404).json({ error: 'Użytkownik nie znaleziony' });
+        return res.status(404).json({ error: "Użytkownik nie znaleziony" });
       }
       res.json(updatedCustomer);
     } catch (error: any) {
-      res.status(500).json({ error: 'Wystąpił błąd podczas aktualizacji użytkownika', details: error.message });
+      res.status(500).json({
+        error: "Wystąpił błąd podczas aktualizacji użytkownika",
+        details: error.message,
+      });
     }
   }
 
@@ -75,43 +97,12 @@ class CustomerController {
       const { id } = req.params;
       const deletedCustomer = await Customer.findByIdAndDelete(id);
       if (!deletedCustomer) {
-        return res.status(404).json({ error: 'Użytkownik nie znaleziony' });
+        return res.status(404).json({ error: "Użytkownik nie znaleziony" });
       }
-      res.json({ message: 'Użytkownik został usunięty' });
-    } catch (error: any) {
-      res.status(500).json({ error: 'Wystąpił błąd podczas usuwania użytkownika', details: error.message });
-    }
-  }
-  async searchCustomer(req: Request, res: Response) {
-    try {
-      const searchTerm = req.query.searchTerm as string;
-      const page = parseInt(req.query.page as string) || 1;
-      const perPage = 10;
-  
-      const query = {
-        $or: [
-          { name: { $regex: searchTerm, $options: 'i' } }, 
-          { surname: { $regex: searchTerm, $options: 'i' } }, 
-          { phoneNumber: { $regex: searchTerm, $options: 'i' } }, 
-          { mail: { $regex: searchTerm, $options: 'i' } }, 
-        ],
-      };
-  
-      const customers = await Customer.find(query)
-        .skip((page - 1) * perPage)
-        .limit(perPage)
-        .sort({ createdAt: -1 });
-  
-      const totalCustomers = await Customer.countDocuments(query);
-  
-      return res.status(200).json({
-        customers,
-        totalPages: Math.ceil(totalCustomers / perPage),
-        currentPage: page,
-      });
+      res.json({ message: "Użytkownik został usunięty" });
     } catch (error: any) {
       res.status(500).json({
-        error: 'Wystąpił błąd podczas wyszukiwania użytkowników',
+        error: "Wystąpił błąd podczas usuwania użytkownika",
         details: error.message,
       });
     }

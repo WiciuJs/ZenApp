@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CustomerForm from "../components/CustomerForm";
 import RegistrationForm from "../components/RegistrationForm";
-import "../styles/CustomerViews.scss";
 import {
   faUserXmark as faSolidUserXmark,
   faBookmark as faDuotoneBookmark,
@@ -28,7 +27,7 @@ const CustomerListView: React.FC = () => {
 
   const handleRegistrationSubmit = (formData: RegistrationFormData) => {
     axios
-      .post("http://127.0.0.1:5000/api/registrations/", {
+      .post("http://127.0.0.1:5001/api/registrations/", {
         ...formData,
         customer: selectedCustomerForRegistration?._id,
       })
@@ -56,7 +55,7 @@ const CustomerListView: React.FC = () => {
     if (searchTerm) {
       axios
         .get(
-          `http://127.0.0.1:5000/api/customer/search?searchTerm=${searchTerm}&page=${currentPage}`
+          `http://127.0.0.1:5001/api/customer?search=${searchTerm}&page=${currentPage}`
         )
         .then((res) => {
           setSearchResults(res.data.customers);
@@ -67,7 +66,7 @@ const CustomerListView: React.FC = () => {
         });
     } else {
       axios
-        .get(`http://127.0.0.1:5000/api/customer?page=${currentPage}`)
+        .get(`http://127.0.0.1:5001/api/customer?page=${currentPage}`)
         .then((res) => {
           setCustomers(res.data.customers);
           setTotalPages(res.data.totalPages);
@@ -78,13 +77,13 @@ const CustomerListView: React.FC = () => {
     }
   };
 
-  const handleCustomerAdded = (newCustomer: Customer) => {
-    setCustomers([...customers, newCustomer]);
+  const handleCustomerAdded = () => {
+    fetchCustomers();
   };
 
   const handleDeleteCustomer = (customerId: string) => {
     axios
-      .delete(`http://127.0.0.1:5000/api/customer/${customerId}`)
+      .delete(`http://127.0.0.1:5001/api/customer/${customerId}`)
       .then(() => {
         setCustomers(
           customers.filter((customer) => customer._id !== customerId)
@@ -100,14 +99,14 @@ const CustomerListView: React.FC = () => {
     setIsEditMode(true);
   };
 
-  const handleSaveCustomer = (updatedCustomer: Customer) => {
+  const handleSaveCustomer = (updatedCustomer: Customer | undefined) => {
     if (!updatedCustomer) {
       return;
     }
 
     axios
       .put(
-        `http://127.0.0.1:5000/api/customer/${updatedCustomer._id}`,
+        `http://127.0.0.1:5001/api/customer/${updatedCustomer._id}`,
         updatedCustomer
       )
       .then(() => {
@@ -127,105 +126,121 @@ const CustomerListView: React.FC = () => {
   const displayedCustomers = searchTerm ? searchResults : customers;
 
   return (
-    <div className="customer-view">
+    <div className="container mt-5">
       {selectedCustomerForRegistration && (
         <Modal
           isOpen={isRegistrationModalOpen}
           onRequestClose={closeRegistrationModal}
           contentLabel="Rejestracja"
+          className="modal-dialog"
         >
-          <h2>Formularz rejestracji</h2>
-          <RegistrationForm
-            onRegistrationSubmit={handleRegistrationSubmit}
-            closeRegistrationModal={closeRegistrationModal}
-            selectedCustomer={selectedCustomerForRegistration}
-          />
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2 className="modal-title">Formularz rejestracji</h2>
+              <button
+                type="button"
+                className="close"
+                onClick={closeRegistrationModal}
+              >
+                &times;
+              </button>
+            </div>
+            <div className="modal-body">
+              <RegistrationForm
+                onRegistrationSubmit={handleRegistrationSubmit}
+                closeRegistrationModal={closeRegistrationModal}
+                selectedCustomer={selectedCustomerForRegistration}
+              />
+            </div>
+          </div>
         </Modal>
       )}
-      <div className="customer-form">
-        <CustomerForm onCustomerAdded={handleCustomerAdded} />
-      </div>
-      <div className="container">
+
+      <CustomerForm onCustomerAdded={handleCustomerAdded} />
+
+      <div className="my-4">
         <input
           type="text"
+          className="form-control"
           placeholder="Wyszukaj użytkownika..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="search"></div>
       </div>
-      <div className="customer-list">
-        <h2>Lista użytkowników</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Imię</th>
-              <th>Nazwisko</th>
-              <th>Wiek</th>
-              <th>E-mail</th>
-              <th>Numer telefonu</th>
-              <th>Komentarze</th>
-              <th>Akcje</th>
+
+      <h2>Lista użytkowników</h2>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Wiek</th>
+            <th>E-mail</th>
+            <th>Numer telefonu</th>
+            <th>Komentarze</th>
+            <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+          {displayedCustomers.map((customer) => (
+            <tr key={customer._id}>
+              <td>{customer.name}</td>
+              <td>{customer.surname}</td>
+              <td>{customer.age}</td>
+              <td>{customer.mail}</td>
+              <td>{customer.phoneNumber}</td>
+              <td>{customer.comments}</td>
+              <td>
+                <button
+                  className="btn btn-primary mr-2"
+                  onClick={() => handleEditCustomer(customer)}
+                >
+                  <FontAwesomeIcon icon={faDuotoneUserGear} />
+                </button>
+                <button
+                  className="btn btn-danger mr-2"
+                  onClick={() => handleDeleteCustomer(customer._id)}
+                >
+                  <FontAwesomeIcon icon={faSolidUserXmark} />
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setSelectedCustomerForRegistration(customer);
+                    openRegistrationModal();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faDuotoneBookmark} />
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {displayedCustomers.map((customer) => (
-              <tr key={customer._id}>
-                <td>{customer.name}</td>
-                <td>{customer.surname}</td>
-                <td>{customer.age}</td>
-                <td>{customer.mail}</td>
-                <td>{customer.phoneNumber}</td>
-                <td>{customer.comments}</td>
-                <td>
-                  <button
-                    className="neon-button-action-edit"
-                    onClick={() => handleEditCustomer(customer)}
-                  >
-                    <FontAwesomeIcon icon={faDuotoneUserGear} />
-                  </button>
-                  <button
-                    className="neon-button-action-delete"
-                    onClick={() => handleDeleteCustomer(customer._id)}
-                  >
-                    <FontAwesomeIcon icon={faSolidUserXmark} />
-                  </button>
-                  <button
-                    className="neon-button-action"
-                    onClick={() => {
-                      setSelectedCustomerForRegistration(customer);
-                      openRegistrationModal();
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faDuotoneBookmark} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {isEditMode && customerToEdit && (
-          <div className="edit-form">
-            <h3>Edytuj użytkownika</h3>
-            <CustomerForm
-              onCustomerAdded={handleSaveCustomer}
-              customerToEdit={customerToEdit}
-            />
-          </div>
-        )}
-        <div className="pagination">
-          <ul>
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <li
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={currentPage === index + 1 ? "active" : ""}
-              >
-                {index + 1}
-              </li>
-            ))}
-          </ul>
+          ))}
+        </tbody>
+      </table>
+
+      {isEditMode && customerToEdit && (
+        <div className="my-4">
+          <h3>Edytuj użytkownika</h3>
+          <CustomerForm
+            onCustomerAdded={handleSaveCustomer}
+            customerToEdit={customerToEdit}
+          />
         </div>
+      )}
+
+      <div className="mt-4">
+        <ul className="pagination">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <li
+              key={index}
+              className={`page-item ${currentPage === index + 1 ? "active" : ""
+                }`}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              <span className="page-link">{index + 1}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
