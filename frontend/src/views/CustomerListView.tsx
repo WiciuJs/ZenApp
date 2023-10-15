@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Customer, RegistrationFormData } from "../Interface/Interface";
 import Modal from "react-modal";
+import styles from '../styles/CustomerListView.module.scss';
 
 Modal.setAppElement("#root");
 
@@ -126,7 +127,7 @@ const CustomerListView: React.FC = () => {
   const displayedCustomers = searchTerm ? searchResults : customers;
 
   return (
-    <div className="container mt-5">
+    <div className={` ${styles.customerListViewContainer}`}>
       {selectedCustomerForRegistration && (
         <Modal
           isOpen={isRegistrationModalOpen}
@@ -158,7 +159,7 @@ const CustomerListView: React.FC = () => {
 
       <CustomerForm onCustomerAdded={handleCustomerAdded} />
 
-      <div className="my-4">
+      <div className={`my-4 ${styles.searchBar}`}>
         <input
           type="text"
           className="form-control"
@@ -168,8 +169,8 @@ const CustomerListView: React.FC = () => {
         />
       </div>
 
-      <h2>Lista użytkowników</h2>
-      <table className="table table-striped">
+      <h2 className={styles.customerListViewTableHeader}></h2>
+      <table className={` ${styles.customerListViewTable}`}>
         <thead>
           <tr>
             <th>Imię</th>
@@ -228,22 +229,20 @@ const CustomerListView: React.FC = () => {
         </div>
       )}
 
-      <div className="mt-4">
-        <ul className="pagination">
+      <div className={`mt-4 ${styles.paginationContainer}`}>
+        <ul className={`pagination ${styles.pagination}`}>
           {Array.from({ length: totalPages }).map((_, index) => (
             <li
               key={index}
-              className={`page-item ${currentPage === index + 1 ? "active" : ""
-                }`}
+              className={`page-item ${currentPage === index + 1 ? styles.active : ""}`}
               onClick={() => handlePageChange(index + 1)}
             >
-              <span className="page-link">{index + 1}</span>
+              <a className={`page-link ${styles.pageLink}`}>{index + 1}</a>
             </li>
           ))}
         </ul>
       </div>
     </div>
   );
-};
-
+}
 export default CustomerListView;

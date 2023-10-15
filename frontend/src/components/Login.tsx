@@ -72,7 +72,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
   return (
     <div className={styles.loginContainer}>
-     <div className={`${styles.circleCard} ${isRotating ? styles.rotating : ''}`}>
+      <div className={`${styles.circleCard} ${isRotating ? styles.rotating : ''}`}>
         <div className={styles.logoLinkContainer}>
           <a href="/" className={styles.logoLink}>
             <img src="https://i.ibb.co/zFt6TKN/logo-color-preview-rev-1.png" alt="Company Logo" className={styles.logoImage} />
@@ -121,11 +121,4 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 };
 
 export default Auth;
-
-
-
-
-
-
-
 

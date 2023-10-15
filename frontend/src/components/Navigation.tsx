@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styles from '../styles/Navigation.module.scss'
+import { Link, useLocation } from 'react-router-dom';
+import styles from '../styles/Navigation.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCalendar,
@@ -16,12 +15,8 @@ interface NavigationProps {
   logout: () => void;
 }
 
-function Navigation({ user, logout }: NavigationProps) {
-  const [activeLink, setActiveLink] = useState<string>('');
-
-  const handleLinkClick = (link: string) => {
-    setActiveLink(link);
-  };
+const Navigation: React.FC<NavigationProps> = ({ user, logout }) => {
+  const location = useLocation();
 
   return (
     <nav className={`navbar navbar-expand-lg navbar-light ${styles.navbar}`}>
@@ -29,45 +24,40 @@ function Navigation({ user, logout }: NavigationProps) {
         <ul className={`navbar-nav ${styles.navbarNav}`}>
           <li className={`nav-item ${styles.navItem}`}>
             <Link
-              className={`nav-link ${activeLink === '/calendar' ? 'active' : ''}`}
+              className={`nav-link ${location.pathname === '/calendar' ? 'active' : ''}`}
               to="/calendar"
-              onClick={() => handleLinkClick('/calendar')}
             >
               <FontAwesomeIcon icon={faCalendar} />
             </Link>
           </li>
           <li className={`nav-item ${styles.navItem}`}>
             <Link
-              className={`nav-link ${activeLink === '/client-list' ? 'active' : ''}`}
+              className={`nav-link ${location.pathname === '/client-list' ? 'active' : ''}`}
               to="/client-list"
-              onClick={() => handleLinkClick('/client-list')}
             >
               <FontAwesomeIcon icon={faAddressBook} />
             </Link>
           </li>
           <li className={`nav-item ${styles.navItem}`}>
             <Link
-              className={`nav-link ${activeLink === '/supplies' ? 'active' : ''}`}
+              className={`nav-link ${location.pathname === '/supplies' ? 'active' : ''}`}
               to="/supplies"
-              onClick={() => handleLinkClick('/supplies')}
             >
               <FontAwesomeIcon icon={faBox} />
             </Link>
           </li>
           <li className={`nav-item ${styles.navItem}`}>
             <Link
-              className={`nav-link ${activeLink === '/voucher' ? 'active' : ''}`}
+              className={`nav-link ${location.pathname === '/voucher' ? 'active' : ''}`}
               to="/voucher"
-              onClick={() => handleLinkClick('/voucher')}
             >
               <FontAwesomeIcon icon={faGift} />
             </Link>
           </li>
           <li className={`nav-item ${styles.navItem}`}>
             <Link
-              className={`nav-link ${activeLink === '/treatments' ? 'active' : ''}`}
+              className={`nav-link ${location.pathname === '/treatments' ? 'active' : ''}`}
               to="/treatments"
-              onClick={() => handleLinkClick('/treatments')}
             >
               <FontAwesomeIcon icon={faSpa} />
             </Link>
