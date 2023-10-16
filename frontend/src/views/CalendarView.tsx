@@ -54,6 +54,9 @@ const CalendarView = () => {
     <>
       <MyCalendar events={calendarEvents} />
       <div>
+        <button onClick={() => handleOpenRegistrationForm(null)}>
+          Dodaj rejestrację
+        </button>
         {isRegistrationFormOpen && (
           <RegistrationForm
             onRegistrationSubmit={handleRegistrationSubmit}
