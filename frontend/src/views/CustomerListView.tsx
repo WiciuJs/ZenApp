@@ -193,19 +193,19 @@ const CustomerListView: React.FC = () => {
               <td>{customer.comments}</td>
               <td>
                 <button
-                  className="btn btn-primary mr-2"
+
                   onClick={() => handleEditCustomer(customer)}
                 >
                   <FontAwesomeIcon icon={faDuotoneUserGear} />
                 </button>
                 <button
-                  className="btn btn-danger mr-2"
+
                   onClick={() => handleDeleteCustomer(customer._id)}
                 >
                   <FontAwesomeIcon icon={faSolidUserXmark} />
                 </button>
                 <button
-                  className="btn btn-secondary"
+
                   onClick={() => {
                     setSelectedCustomerForRegistration(customer);
                     openRegistrationModal();
