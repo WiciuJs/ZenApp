@@ -1,67 +1,117 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
 .container {
-    padding: 20px;
-    
-    
-  
+    padding: 60px;
+    background: linear-gradient(145deg, #e6e7ec 0%, #ffffff 100%);
+    border-radius: 25px;
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.08);
+    font-family: 'Poppins', sans-serif;
+
     .calendarWrapper {
-      border: 1px solid #e0e0e0;
-      margin-bottom: 20px;
-      
+        background: rgba(255, 255, 255, 0.85);  /* Lekko przezroczyste tło */
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.04);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.12);
+        }
+
+        td.day, .day {
+            border: none;
+            color: #2D9CDB;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            &:hover {
+                background-color: rgba(45, 156, 219, 0.08);
+                color: #2D9CDB;
+            }
+        }
+
+        button {
+            background-color: #2D9CDB;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 55px;
+            font-size: 0.95em;
+            font-weight: 550;
+            letter-spacing: 0.6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 12px 22px rgba(45, 156, 219, 0.2);
+
+            &:hover {
+                background-color: #227AB3;
+                transform: translateY(-4px);
+                box-shadow: 0 18px 32px rgba(45, 156, 219, 0.3);
+            }
+
+            &:active {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 18px rgba(45, 156, 219, 0.2);
+            }
+        }
     }
-  
+
     .registrationList {
         font-family: 'Caveat', cursive;
-      h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-  
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        text-align: center;
-  
-        thead {
-          background-color: gray;
-          color: white;
+        
+        h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
         }
-  
-        th, td {
-          padding: 10px 15px;
-          border: 1px solid #e0e0e0;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            text-align: center;
+            
+            thead {
+                background-color: #5A5A5A;
+                color: white;
+            }
+
+            th, td {
+                padding: 12px 18px;
+                border: 1px solid #dedede;
+                transition: background-color 0.3s ease;
+            }
+
+            tbody tr:nth-child(even) {
+                background-color: #7dbc72;
+            }
+
+            tbody tr:hover {
+                background-color: #f9fcf7;
+            }
+
+            button {
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                margin: 0 6px;
+                padding: 6px;
+                transition: color 0.3s, transform 0.2s;
+
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+
+            .editButton {
+                color: #10a010;
+            }
+
+            .deleteButton {
+                color: #d63031;
+            }
         }
-  
-        tbody tr:nth-child(even) {
-          background-color: #6eaa5e;;
-        }
-  
-        tbody tr:hover {
-          background-color: #f7faf6;
-        }
-  
-        button {
-          background-color: transparent;
-          border: none;
-          cursor: pointer;
-          margin: 0 5px;
-          padding: 5px;
-          transition: background-color 0.3s;
-  
-          &:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-          }
-        }
-  
-        .editButton {
-          color: #0f880f; // kolor ikony modyfikacji
-        }
-  
-        .deleteButton {
-          color: red; // kolor ikony usuwania
-        }
-      }
     }
-}  
+}
