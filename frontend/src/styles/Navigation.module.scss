@@ -1,47 +1,61 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-
 .navbar {
-  background-color: $gray-200;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 999;
-  
-  .container-fluid {
-    padding: 0 2rem;
+  top: 0;
+  left: 0;
+  right: 0; 
+  height: 100px; 
+  background-color: #e5e5e5; 
+
+  .containerFluid {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    height: 100%;
   }
 
   .navbarNav {
-    flex-direction: column;
     width: 100%;
-    
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+
     .navItem {
-      width: 100%;
+      list-style-type: none;
+
+      &.active .navIcon {
+        color: #7dbc72;
+        animation: activeIcon 1.5s infinite;
+      }
 
       .nav-link {
-        padding: 0.75rem 1rem;
-        color: $gray-600;
         display: flex;
-        align-items: center;
         justify-content: center;
-        width: 100%;
-        
-        
-        svg {
-          font-size: 1.2rem;
-          margin-right: 0.5rem;
-        }
+        align-items: center;
+        height: 100%;
+        flex: 1; 
 
-        &.active,
-    &:hover,
-    &:focus {
-        color: $white; 
-        background-color: $primary; 
+        .iconContainer {
+          .navIcon {
+            font-size: 60px; 
+            color: #b0b0b0;
+            transition: color 0.3s, transform 0.3s; 
+
+            &:hover {
+              color: #7dbc72;
+              transform: scale(1.1); 
+            }
+          }
+        }
+      }
     }
+  }
 }
-    }
+
+@keyframes activeIcon {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.1) translateY(-5px);
   }
 }
