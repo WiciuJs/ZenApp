@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+.container {
+    padding: 20px;
+    
+    
+  
+    .calendarWrapper {
+      border: 1px solid #e0e0e0;
+      margin-bottom: 20px;
+      
+    }
+  
+    .registrationList {
+        font-family: 'Caveat', cursive;
+      h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+  
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        text-align: center;
+  
+        thead {
+          background-color: gray;
+          color: white;
+        }
+  
+        th, td {
+          padding: 10px 15px;
+          border: 1px solid #e0e0e0;
+        }
+  
+        tbody tr:nth-child(even) {
+          background-color: #6eaa5e;;
+        }
+  
+        tbody tr:hover {
+          background-color: #f7faf6;
+        }
+  
+        button {
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          margin: 0 5px;
+          padding: 5px;
+          transition: background-color 0.3s;
+  
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+          }
+        }
+  
+        .editButton {
+          color: #0f880f; // kolor ikony modyfikacji
+        }
+  
+        .deleteButton {
+          color: red; // kolor ikony usuwania
+        }
+      }
+    }
+}  
