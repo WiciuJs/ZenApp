@@ -1,0 +1,110 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.voucher-container {
+    animation: fadeIn 1s ease-out;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; 
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px;
+    background: #f9fcf7;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+.voucher-form-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 750px;
+    padding: 60px 80px;
+    background: #f9fcf7;
+    box-shadow: -10px -10px 30px rgba(255, 255, 255, 0.5), 10px 10px 30px rgba(125, 188, 114, 0.15);
+    border: 2px solid #7dbc72;
+    border-radius: 25px;
+    flex: 1; 
+    margin-right: 20px;
+}
+
+.voucher-header {
+    font-size: 35px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #333;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    flex: 1;
+}
+
+.voucher-form {
+    display: flex;
+    flex-direction: column;
+
+    .voucher-label {
+        margin-bottom: 28px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .voucher-input {
+        width: 100%;
+        padding: 16px 22px;
+        font-size: 18px;
+        background: #ffffff;
+        border: 3px solid #7dbc72;
+        border-radius: 12px;
+        transition: all 0.4s ease;
+
+        &:focus {
+            border-color: #5baa50;
+            box-shadow: 0 0 15px 0 rgba(125, 188, 114, 0.4);
+            outline: none;
+        }
+    }
+
+    .voucher-button {
+        align-self: center;
+        padding: 18px 36px;
+        margin-top: 35px;
+        font-size: 20px;
+        background-color: #7dbc72;
+        color: #f9fcf7;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+            background-color: #5baa50;
+            transform: translateY(-4px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        &:active {
+            transform: translateY(-2px);
+        }
+    }
+}
+
+.voucher-pdf-preview {
+    margin-top: 45px;
+    width: 100%;
+    max-width: 750px;
+    height: 520px;
+    background: #f9fcf7;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: -10px -10px 30px rgba(255, 255, 255, 0.5), 10px 10px 30px rgba(125, 188, 114, 0.15);
+}

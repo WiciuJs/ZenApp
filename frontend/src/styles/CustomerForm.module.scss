@@ -1,0 +1,101 @@
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9fcf7;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .registration-form:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  }
+  
+  .registration-form label {
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .registration-form input[type="datetime-local"],
+  .registration-form .registration-select {
+    width: 100%;
+    padding: 18px;
+    margin: 12px 0;
+    border: 2px solid #7dbc72;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .registration-form input[type="datetime-local"]:focus,
+  .registration-form .registration-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  }
+  
+  .registration-form .registration-select {
+    background-color: #fff;
+  }
+  
+  .registration-form .registration-button {
+    width: 100%;
+    padding: 18px;
+    background-color: #7dbc72;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+  }
+  
+  .registration-form .registration-button:hover {
+    background-color: #64a862;
+    transform: scale(1.05);
+  }
+  
+  .registration-form .registration-button[type="button"] {
+    background-color: #ccc;
+    margin-right: 20px;
+    color: #555;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+  }
+  
+  .registration-form .registration-button[type="button"]:hover {
+    background-color: #999;
+  }
+  
+  @media (max-width: 600px) {
+    .registration-form {
+      padding: 20px;
+    }
+  
+    .registration-form label {
+      font-size: 1.4rem;
+    }
+  
+    .registration-form input[type="datetime-local"],
+    .registration-form .registration-select {
+      padding: 16px;
+      font-size: 1.2rem;
+    }
+  
+    .registration-form .registration-button {
+      padding: 16px;
+      font-size: 1.4rem;
+    }
+  }
+  

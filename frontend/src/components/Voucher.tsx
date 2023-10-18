@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import scssStyles from '../styles/Voucher.module.scss';
+
 
 
 const Voucher = () => {
@@ -31,56 +33,56 @@ const Voucher = () => {
   };
 
   return (
-    <div className="voucher-container">
-      <div className="voucher-form-container">
-        <h1 className="voucher-header">Voucher Generator</h1>
-        <form className="voucher-form">
-          <label className="voucher-label" htmlFor="firstName">
+    <div className={scssStyles['voucher-container']}>
+      <div className={scssStyles['voucher-form-container']}>
+        <h1 className={scssStyles['voucher-header']}>Voucher Generator</h1>
+        <form className={scssStyles['voucher-form']}>
+          <label className={scssStyles['voucher-label']} htmlFor="firstName">
             Imię:
             <input
               type="text"
               id="firstName"
               name="firstName"
-              className="voucher-input"
+              className={scssStyles['voucher-input']}
               onChange={handleInputChange}
             />
           </label>
-          <label className="voucher-label" htmlFor="lastName">
+          <label className={scssStyles['voucher-label']} htmlFor="lastName">
             Nazwisko:
             <input
               type="text"
               id="lastName"
               name="lastName"
-              className="voucher-input"
+              className={scssStyles['voucher-input']}
               onChange={handleInputChange}
             />
           </label>
-          <label className="voucher-label" htmlFor="massageType">
+          <label className={scssStyles['voucher-label']} htmlFor="massageType">
             Rodzaj masażu:
             <input
               type="text"
               id="massageType"
               name="massageType"
-              className="voucher-input"
+              className={scssStyles['voucher-input']}
               onChange={handleInputChange}
             />
           </label>
-          <label className="voucher-label" htmlFor="date">
+          <label className={scssStyles['voucher-label']} htmlFor="date">
             Data:
             <input
               type="date"
               id="date"
               name="date"
-              className="voucher-input"
+              className={scssStyles['voucher-input']}
               onChange={handleInputChange}
             />
           </label>
-          <button className="voucher-button" onClick={generatePDF}>
+          <button className={scssStyles['voucher-button']} onClick={generatePDF}>
             Generuj PDF
           </button>
         </form>
       </div>
-      <div id="voucher-content" className="voucher-pdf-preview" >
+      <div id="voucher-content" className={scssStyles['voucher-pdf-preview']}>
         <PDFViewer width="100%" height="100%">
           <Document>
             <Page size="A5" style={styles.page}>
@@ -96,10 +98,11 @@ const Voucher = () => {
     </div>
   );
 };
+
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundSize: 'cover', 
+    backgroundSize: 'cover',
   },
   section: {
     margin: 10,

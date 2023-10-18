@@ -1,159 +1,133 @@
-// CustomerListView.module.scss
-
 .customerListViewContainer {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-  
-    .modal-dialog {
-      max-width: 600px;
-      margin: 30px auto;
-      overflow: hidden;
-      border-radius: 12px;
-  
-      .modal-content {
-        border-radius: 12px;
-  
-        .modal-header {
-          background-color: #252525;
-          color: #ffffff;
-          border-bottom: 1px solid #444;
-          position: relative;
-  
-          .modal-title {
-            font-weight: 500;
-          }
-  
-          .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            transition: color 0.3s;
-  
-            &:hover {
-              color: #ff5a5a;
-            }
-          }
-        }
-      }
-    }
-  
-    .searchBar {
-      display: flex;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 20px;
-  
-      .form-control {
-        padding: 12px 50px 12px 20px;
-        font-size: 15px;
-        border: none;
-        border-radius: 25px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        transition: box-shadow 0.3s, transform 0.3s;
-  
-        &:focus {
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-          transform: translateY(-2px);
-          outline: none;
-        }
-      }
-    }
-  
-    .customerListViewTableHeader {
-      font-size: 24px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-  
-    .customerListViewTable {
-      width: 100%;
-      border-collapse: collapse;
-  
-      thead {
-        background-color: #f6f8fa;
-  
-        th {
-          padding: 15px 20px;
-          border-bottom: 2px solid #dfe2e5;
-          font-weight: 500;
-        }
-      }
-  
-      tbody {
-        tr {
-          transition: background-color 0.3s;
-  
-          &:hover {
-            background-color: #f9f9f9;
-          }
-  
-          td {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eaeaea;
-          }
-  
-          button {
-            margin-right: 6px;
-            background-color: transparent;
-            border: none;
-            transition: transform 0.3s, opacity 0.3s;
-            cursor: pointer;
-            opacity: 0.7;
-  
-            &:hover {
-              transform: scale(1.1);
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-  
-    .paginationContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-  
-      .pagination {
-        display: flex;
-        gap: 12px;
-        list-style-type: none;
-  
-        .page-item {
-          transition: background-color 0.3s;
-  
-          &.active .page-link {
-            background-color: #007bff;
-            color: #ffffff;
-          }
-  
-          .page-link {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            color: #333;
-            background-color: #f5f5f5;
-            transition: background-color 0.3s, transform 0.3s;
-  
-            &:hover {
-              background-color: #eaeaea;
-              transform: translateY(-3px);
-            }
-          }
-        }
-      }
-    }
+  padding: 40px;
+  background: linear-gradient(135deg, #f9fcf7, #e2eede);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.modal-dialog {
+  max-width: 680px;
+  margin: 45px auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.modal-content {
+  padding: 30px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #e5e7eb;
+  background: linear-gradient(95deg, #f9fcf7, #d8e5d3);
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.close {
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  &:hover {
+      color: #34495e;
   }
-  
+}
+
+.searchBar {
+  position: relative;
+  margin-bottom: 30px;
+  &:after {
+      content: '\f002';
+      font-family: FontAwesome;
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7dbc72; // Green color accent
+      font-size: 18px;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 20px;
+  padding-right: 50px;
+  border: none;
+  border-radius: 10px;
+  background-color: #f9fcf7;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+  &:focus {
+      background-color: #ffffff;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.customerListViewTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  th, td {
+      padding: 15px 25px;
+      background-color: #f9fcf7;
+      border: none;
+  }
+  th {
+      background-color: #7dbc72;
+      color: #f9fcf7; 
+      font-weight: 600;
+      text-transform: uppercase;
+  }
+  td {
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.pagination {
+  list-style-type: none;
+  display: flex;
+  gap: 15px;
+  li {
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      &.active .pageLink {
+          background-color: #7dbc72;
+          color: #f9fcf7;
+          transform: translateY(-3px);
+          box-shadow: 0 2px 8px rgba(123, 188, 114, 0.3);
+      }
+  }
+}
+
+.pageLink {
+  display: block;
+  padding: 8px 15px;
+  background-color: #f9fcf7;
+  border: 1px solid #7dbc72;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+      background-color: #7dbc72;
+      color: #f9fcf7;
+  }
+}
