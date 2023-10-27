@@ -10,7 +10,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Customer, RegistrationFormData } from "../Interface/Interface";
 import Modal from "react-modal";
-import styles from '../styles/CustomerListView.module.scss';
+import styles from "../styles/CustomerListView.module.scss";
+import Button from "../components/common/Button";
 
 Modal.setAppElement("#root");
 
@@ -192,20 +193,15 @@ const CustomerListView: React.FC = () => {
               <td>{customer.phoneNumber}</td>
               <td>{customer.comments}</td>
               <td>
-                <button
-
-                  onClick={() => handleEditCustomer(customer)}
-                >
-                  <FontAwesomeIcon icon={faDuotoneUserGear} />
-                </button>
-                <button
-
-                  onClick={() => handleDeleteCustomer(customer._id)}
-                >
+                <Button
+                  content={<FontAwesomeIcon icon={faDuotoneUserGear} />}
+                  callback={() => handleEditCustomer(customer)}
+                  customClass={styles.btnRed}
+                />
+                <button onClick={() => handleDeleteCustomer(customer._id)}>
                   <FontAwesomeIcon icon={faSolidUserXmark} />
                 </button>
                 <button
-
                   onClick={() => {
                     setSelectedCustomerForRegistration(customer);
                     openRegistrationModal();
@@ -225,6 +221,7 @@ const CustomerListView: React.FC = () => {
           <CustomerForm
             onCustomerAdded={handleSaveCustomer}
             customerToEdit={customerToEdit}
+          
           />
         </div>
       )}
@@ -234,7 +231,9 @@ const CustomerListView: React.FC = () => {
           {Array.from({ length: totalPages }).map((_, index) => (
             <li
               key={index}
-              className={`page-item ${currentPage === index + 1 ? styles.active : ""}`}
+              className={`page-item ${
+                currentPage === index + 1 ? styles.active : ""
+              }`}
               onClick={() => handlePageChange(index + 1)}
             >
               <a className={`page-link ${styles.pageLink}`}>{index + 1}</a>
@@ -244,5 +243,5 @@ const CustomerListView: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 export default CustomerListView;

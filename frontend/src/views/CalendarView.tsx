@@ -57,7 +57,7 @@ const CalendarView = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.calendarContainer}>
       <div className={styles.calendarWrapper}>
         <MyCalendar events={calendarEvents} />
       </div>
@@ -96,7 +96,7 @@ const CalendarView = () => {
         </table>
 
         {editedRegistration && (
-          <div>
+          <div className={styles.editRegistrationContainer}>
             <h3>Edytuj rejestrację</h3>
             <label>
               Data Rozpoczęcia:

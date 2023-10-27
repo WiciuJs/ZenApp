@@ -7,6 +7,7 @@ import customersRoutes from './routes/customersRoutes';
 import authRoutes from './routes/authRoutes';
 import supplierRoutes from './routes/supplierRoutes';
 import productRoutes from './routes/productRoutes';
+import treatmentRoutes from './routes/treatmentRoutes';
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -28,6 +29,7 @@ app.use('/api', registrationRoutes);
 app.use('/api', customersRoutes);
 app.use('/api', supplierRoutes);
 app.use('/api', productRoutes);
+app.use('/api', treatmentRoutes);
 
 app.listen(port, () => {
   console.log(`Serwer działa na porcie ${port}`);
