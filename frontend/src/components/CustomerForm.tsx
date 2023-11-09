@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { CustomerFormProps } from '../Interface/Interface';
-
+import styles from '../styles/CustomerForm.module.scss';
 Modal.setAppElement('#root');
 
 const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerToEdit }) => {
@@ -115,101 +115,104 @@ const CustomerForm: React.FC<CustomerFormProps> = ({ onCustomerAdded, customerTo
   };
 
   return (
-    <div className="customer-form">
-      <button onClick={openModal} className="neon-button">
-        {customerToEdit ? 'Edytuj klienta' : 'Dodaj nowego użytkownika'}
-      </button>
+    <>
+      <div className={styles.addButtonContainer}>
+        <button onClick={openModal} className={styles.addButton}>
+          {customerToEdit ? 'Edytuj klienta' : 'Dodaj nowego użytkownika'}
+        </button>
+      </div>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel={customerToEdit ? 'Edytuj klienta' : 'Dodaj nowego użytkownika'}
-        className="modal"
-        style={{ overlay: { backgroundColor: 'white' } }}
+        overlayClassName={styles.modalOverlay}
+        className={styles.modalContent}
       >
-        {successMessage && <div className="success-message">{successMessage}</div>}
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="input-block">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="name">Imię:</label>
-            <div className="border"></div>
-          </div>
-          <div className="input-block">
-            <input
-              type="text"
-              id="surname"
-              name="surname"
-              value={formData.surname}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="surname">Nazwisko:</label>
-            <div className="border"></div>
-          </div>
-          <div className="input-block">
-            <input
-              type="text"
-              id="age"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="age">Wiek:</label>
-            <div className="border"></div>
-          </div>
-          <div className="input-block">
-            <input
-              type="email"
-              id="mail"
-              name="mail"
-              value={formData.mail}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="mail">E-mail:</label>
-            <div className="border"></div>
-          </div>
-          <div className="input-block">
-            <input
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="phoneNumber">Numer telefonu:</label>
-            <div className="border"></div>
-          </div>
-          <div className="textarea-block">
-            <textarea
-              id="comments"
-              name="comments"
-              value={formData.comments}
-              onChange={handleChange}
-            />
-            <label htmlFor="comments">Komentarze:</label>
-            <div className="border"></div>
-          </div>
-          <div>
-            <button type="submit" className="neon-button">
-              Dodaj użytkownika
-            </button>
-            <button onClick={closeModal} className="neon-button cancel">
-              Anuluj
-            </button>
-          </div>
-        </form>
+        <div className={styles.customerForm}>
+          {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
+          {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.inputBlock}>
+              <label htmlFor="name" className={styles.label}>Imię:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputBlock}>
+              <label htmlFor="surname" className={styles.label}>Nazwisko:</label>
+              <input
+                type="text"
+                id="surname"
+                name="surname"
+                value={formData.surname}
+                onChange={handleChange}
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputBlock}>
+              <label htmlFor="age" className={styles.label}>Wiek:</label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputBlock}>
+              <label htmlFor="email" className={styles.label}>E-mail:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.mail}
+                onChange={handleChange}
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputBlock}>
+              <label htmlFor="phoneNumber" className={styles.label}>Numer telefonu:</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.inputBlock}>
+              <label htmlFor="comments" className={styles.label}>Komentarze:</label>
+              <textarea
+                id="comments"
+                name="comments"
+                value={formData.comments}
+                onChange={handleChange}
+                className={styles.textarea}
+              />
+            </div>
+            <div className={styles.actions}>
+              <button type="submit" className={styles.neonButton}>
+                {customerToEdit ? 'Zaktualizuj klienta' : 'Dodaj klienta'}
+              </button>
+              <button type="button" onClick={closeModal} className={styles.cancelButton}>
+                Anuluj
+              </button>
+            </div>
+          </form>
+        </div>
       </Modal>
-    </div>
+    </>
   );
 };
 

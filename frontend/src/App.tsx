@@ -8,7 +8,7 @@ import Login from "./components/Login";
 import OrderView from "../src/views/Orderview";
 import TreatmentView from "./views/TreatmentView";
 
-import styles from "./App.module.scss";
+
 
 function App() {
   const [token, setToken] = useState<string>(
@@ -45,7 +45,6 @@ function App() {
     <Router>
       <div className="App">
         {token ? <Navigation user={user} logout={handleLogout} /> : null}
-        <div className={styles.mainContainer}>
           <Routes>
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
             <Route
@@ -90,7 +89,6 @@ function App() {
             />
           </Routes>
         </div>
-      </div>
     </Router>
   );
 }

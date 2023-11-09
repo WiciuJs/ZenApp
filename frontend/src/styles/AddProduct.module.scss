@@ -1,0 +1,132 @@
+
+$color-dark-gray: #666;
+$color-light-gray: #f2f2f2;
+$color-white: #fff;
+$color-black: #000;
+$font-stack: 'Helvetica Neue', sans-serif;
+$border-radius: 6px;
+$box-shadow: 0 2px 4px rgba($color-black, 0.2);
+$transition-duration: 0.2s;
+$spacing-unit: 10px;
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-effect($base-color, $hover-color) {
+  background-color: $base-color;
+  transition: background-color $transition-duration ease-in-out;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+}
+
+
+.AddProduct {
+  @include flex-column-center;
+  background: $color-light-gray;
+  padding: 2 * $spacing-unit;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  font-family: $font-stack;
+
+  &__heading {
+    color: $color-dark-gray;
+    font-size: 24px;
+    font-weight: 300;
+    margin: 2 * $spacing-unit 0;
+  }
+
+  &__form {
+    @include flex-column-center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 3 * $spacing-unit;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  &__formGroup {
+    width: 100%;
+    margin-bottom: 1 * $spacing-unit;
+  }
+
+  &__label {
+    color: $color-dark-gray;
+    font-weight: bold;
+    margin-bottom: 0.5 * $spacing-unit;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 1 * $spacing-unit;
+    border: 1px solid $color-dark-gray;
+    border-radius: $border-radius;
+    margin-bottom: 1 * $spacing-unit;
+    font-size: 16px;
+    color: $color-dark-gray;
+  }
+
+  &__button {
+    @include hover-effect($color-dark-gray, darken($color-dark-gray, 10%));
+    padding: 1 * $spacing-unit 2 * $spacing-unit;
+    border: none;
+    border-radius: $border-radius;
+    color: $color-white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  &__productList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  &__productItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1 * $spacing-unit;
+    margin-bottom: 1 * $spacing-unit;
+    background: $color-white;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__productName {
+    color: $color-dark-gray;
+  }
+
+  &__deleteButton {
+    @include hover-effect($color-white, $color-light-gray);
+    border: none;
+    border-radius: $border-radius;
+    padding: 0.5 * $spacing-unit;
+    line-height: 1;
+    cursor: pointer;
+
+    svg {
+      color: $color-dark-gray;
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover svg {
+      color: darken($color-dark-gray, 10%);
+    }
+  }
+}

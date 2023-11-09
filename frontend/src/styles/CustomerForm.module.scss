@@ -1,101 +1,151 @@
-.registration-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 30px;
-    background-color: #f9fcf7;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
+$font-stack: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$primary-color: #7dbc72; 
+$background-color: #FAFAFA; 
+$text-color: #424242; 
+$border-color: #E0E0E0; 
+$button-hover-color: #6bcf5a; 
+$button-text-color: #FFFFFF; 
+$border-radius: 6px; 
+$transition-duration: 0.2s; 
+$form-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+$error-color: #D32F2F; 
+$success-color: #388E3C; 
+
+.addButtonContainer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.addButton {
+  font-family: $font-stack;
+  background-color: $primary-color;
+  color: $button-text-color;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color $transition-duration, box-shadow $transition-duration;
+  &:hover {
+    background-color: $button-hover-color;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  
-  .registration-form:hover {
-    transform: scale(1.03);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-  }
-  
-  .registration-form label {
-    font-size: 1.6rem;
-    margin-bottom: 16px;
-    color: #333;
-    text-align: center;
-  }
-  
-  .registration-form input[type="datetime-local"],
-  .registration-form .registration-select {
-    width: 100%;
-    padding: 18px;
-    margin: 12px 0;
-    border: 2px solid #7dbc72;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .registration-form input[type="datetime-local"]:focus,
-  .registration-form .registration-select:focus {
+  &:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(96, 254, 48, 0.5);
   }
-  
-  .registration-form .registration-select {
-    background-color: #fff;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(66, 66, 66, 0.5);
+  z-index: 1000;
+}
+
+.modalContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  max-width: 40rem;
+  background: $background-color;
+  padding: 5rem;
+  border-radius: $border-radius;
+  box-shadow: $form-shadow;
+  outline: none;
+  z-index: 1001;
+}
+
+.customerForm {
+  font-family: $font-stack;
+  color: $text-color;
+}
+
+.inputBlock {
+  margin-bottom: 1rem;
+  background: $background-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+  &:focus {
+    border-color: $primary-color;
+    outline: none;
   }
-  
-  .registration-form .registration-button {
-    width: 100%;
-    padding: 18px;
-    background-color: #7dbc72;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.6rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-transform: uppercase;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.neonButton,
+.cancelButton {
+  padding: 0.8rem 1.6rem;
+  border: none;
+  border-radius: $border-radius;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color $transition-duration;
+}
+
+.neonButton {
+  background-color: $primary-color;
+  color: $button-text-color;
+  &:hover {
+    background-color: $button-hover-color;
   }
-  
-  .registration-form .registration-button:hover {
-    background-color: #64a862;
-    transform: scale(1.05);
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(124, 254, 48, 0.5);
   }
-  
-  .registration-form .registration-button[type="button"] {
-    background-color: #ccc;
-    margin-right: 20px;
-    color: #555;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-    text-transform: uppercase;
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: $text-color;
+  &:hover {
+    background-color: $border-color;
   }
-  
-  .registration-form .registration-button[type="button"]:hover {
-    background-color: #999;
-  }
-  
-  @media (max-width: 600px) {
-    .registration-form {
-      padding: 20px;
-    }
-  
-    .registration-form label {
-      font-size: 1.4rem;
-    }
-  
-    .registration-form input[type="datetime-local"],
-    .registration-form .registration-select {
-      padding: 16px;
-      font-size: 1.2rem;
-    }
-  
-    .registration-form .registration-button {
-      padding: 16px;
-      font-size: 1.4rem;
-    }
-  }
-  
+}
+
+.successMessage,
+.errorMessage {
+  padding: 0.8rem;
+  border-radius: $border-radius;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.successMessage {
+  background-color: lighten($success-color, 40%);
+  border: 1px solid $success-color;
+  color: $success-color;
+}
+
+.errorMessage {
+  background-color: lighten($error-color, 40%);
+  border: 1px solid $error_color;
+  color: $error-color;
+}

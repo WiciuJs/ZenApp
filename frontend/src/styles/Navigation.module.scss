@@ -1,48 +1,72 @@
+:root {
+  --color-primary: #666;
+  --color-background: #ffffff;
+  --color-text: #666666;
+  --color-hover: #7dbc72;
+  --color-active: darken(#7dbc72, 10%);
+  --nav-height: 60px;
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+}
+
 .navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0; 
-  height: 50px; 
-  background-color: #e5e5e5; 
+  background-color: var(--color-background);
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  align-items: center;
+  height: var(--nav-height);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
 
   .containerFluid {
-    display: flex;
-    justify-content: space-around; 
-    align-items: center;
-    height: 100%;
+    display: contents;
   }
 
   .navbarNav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     width: 100%;
-    display: flex;
-    justify-content: space-around; 
-    align-items: center;
+    gap: 1rem;
 
     .navItem {
-      list-style-type: none;
+      background: var(--color-background);
+      border-radius: var(--border-radius);
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+      display: flex;
+      justify-content: center;
 
-      &.active .navIcon {
-        color: #7dbc72;
-        animation: activeIcon 1.5s infinite;
+      &:hover,
+      &.active {
+        background-color: var(--color-hover);
+        transform: translateY(-2px);
       }
 
-      .nav-link {
+      a {
         display: flex;
-        justify-content: center;
         align-items: center;
-        height: 100%;
-        flex: 1; 
+        justify-content: center;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: var(--border-radius);
+        text-decoration: none;
+        color: var(--color-text);
+        transition: background-color var(--transition-speed);
 
         .iconContainer {
+          margin-right: 0;
+
           .navIcon {
-            font-size: 60px; 
-            color: #b0b0b0;
-            transition: color 0.3s, transform 0.3s; 
+            font-size: 1.5rem;
+            color: var(--color-primary);
 
             &:hover {
-              color: #7dbc72;
-              transform: scale(1.1); 
+              color: var(--color-active);
             }
           }
         }
@@ -51,11 +75,14 @@
   }
 }
 
-@keyframes activeIcon {
-  0%, 100% {
-    transform: scale(1) translateY(0);
+@media (max-width: 768px) {
+  .navbarNav {
+    grid-template-columns: repeat(3, 1fr);
   }
-  50% {
-    transform: scale(1.1) translateY(-5px);
+}
+
+@media (max-width: 480px) {
+  .navbarNav {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -1,0 +1,37 @@
+.tabList {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .tabItem {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .nav-link {
+    cursor: pointer;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #666;
+    background: linear-gradient(45deg, #7dbc72, #5faa5d); 
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      transform: scale(1.05); 
+      background: linear-gradient(45deg, #5faa5d, #7dbc72); 
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); 
+    }
+  
+    &.active {
+      color: #7dbc72;
+      background: linear-gradient(45deg, #5faa5d, #7dbc72);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
+  

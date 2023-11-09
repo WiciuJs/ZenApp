@@ -11,7 +11,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Customer, RegistrationFormData } from "../Interface/Interface";
 import Modal from "react-modal";
 import styles from "../styles/CustomerListView.module.scss";
-import Button from "../components/common/Button";
 
 Modal.setAppElement("#root");
 
@@ -128,26 +127,26 @@ const CustomerListView: React.FC = () => {
   const displayedCustomers = searchTerm ? searchResults : customers;
 
   return (
-    <div className={` ${styles.customerListViewContainer}`}>
+    <div className={styles.customerListViewContainer}>
       {selectedCustomerForRegistration && (
         <Modal
           isOpen={isRegistrationModalOpen}
           onRequestClose={closeRegistrationModal}
           contentLabel="Rejestracja"
-          className="modal-dialog"
+          className={styles.modalDialog}
         >
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2 className="modal-title">Formularz rejestracji</h2>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>Formularz rejestracji</h2>
               <button
                 type="button"
-                className="close"
+                className={styles.close}
                 onClick={closeRegistrationModal}
               >
                 &times;
               </button>
             </div>
-            <div className="modal-body">
+            <div className={styles.modalBody}>
               <RegistrationForm
                 onRegistrationSubmit={handleRegistrationSubmit}
                 closeRegistrationModal={closeRegistrationModal}
@@ -159,19 +158,17 @@ const CustomerListView: React.FC = () => {
       )}
 
       <CustomerForm onCustomerAdded={handleCustomerAdded} />
-
-      <div className={`my-4 ${styles.searchBar}`}>
+      <div className={styles.searchBar}>
         <input
           type="text"
-          className="form-control"
+          className={styles.formControl}
           placeholder="Wyszukaj użytkownika..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <h2 className={styles.customerListViewTableHeader}></h2>
-      <table className={` ${styles.customerListViewTable}`}>
+      <table className={styles.customerListViewTable}>
         <thead>
           <tr>
             <th>Imię</th>
@@ -192,13 +189,11 @@ const CustomerListView: React.FC = () => {
               <td>{customer.mail}</td>
               <td>{customer.phoneNumber}</td>
               <td>{customer.comments}</td>
-              <td>
-                <Button
-                  content={<FontAwesomeIcon icon={faDuotoneUserGear} />}
-                  callback={() => handleEditCustomer(customer)}
-                  customClass={styles.btnRed}
-                />
-                <button onClick={() => handleDeleteCustomer(customer._id)}>
+              <td className={styles.actions}>
+                <button onClick={() => handleEditCustomer(customer)} className={styles.btnAction}>
+                  <FontAwesomeIcon icon={faDuotoneUserGear} />
+                </button>
+                <button onClick={() => handleDeleteCustomer(customer._id)} className={styles.btnAction}>
                   <FontAwesomeIcon icon={faSolidUserXmark} />
                 </button>
                 <button
@@ -206,6 +201,7 @@ const CustomerListView: React.FC = () => {
                     setSelectedCustomerForRegistration(customer);
                     openRegistrationModal();
                   }}
+                  className={styles.btnAction}
                 >
                   <FontAwesomeIcon icon={faDuotoneBookmark} />
                 </button>
@@ -214,29 +210,23 @@ const CustomerListView: React.FC = () => {
           ))}
         </tbody>
       </table>
-
       {isEditMode && customerToEdit && (
-        <div className="my-4">
-          <h3>Edytuj użytkownika</h3>
-          <CustomerForm
-            onCustomerAdded={handleSaveCustomer}
-            customerToEdit={customerToEdit}
-          
-          />
-        </div>
+        <CustomerForm
+          onCustomerAdded={handleSaveCustomer}
+          customerToEdit={customerToEdit}
+        />
       )}
-
-      <div className={`mt-4 ${styles.paginationContainer}`}>
-        <ul className={`pagination ${styles.pagination}`}>
-          {Array.from({ length: totalPages }).map((_, index) => (
+      <div className={styles.paginationContainer}>
+        <ul className={styles.pagination}>
+          {Array.from({ length: totalPages }, (_, index) => (
             <li
               key={index}
-              className={`page-item ${
-                currentPage === index + 1 ? styles.active : ""
-              }`}
+              className={`${styles.pageItem} ${currentPage === index + 1 ? 'active' : ''}`}
               onClick={() => handlePageChange(index + 1)}
             >
-              <a className={`page-link ${styles.pageLink}`}>{index + 1}</a>
+              <a className={`${currentPage === index + 1 ? 'active' : ''}`}>
+                {index + 1}
+              </a>
             </li>
           ))}
         </ul>
@@ -244,4 +234,5 @@ const CustomerListView: React.FC = () => {
     </div>
   );
 };
+
 export default CustomerListView;

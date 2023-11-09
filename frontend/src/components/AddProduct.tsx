@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import styles from '../styles/AddProduct.module.scss';
 
 interface AddProductProps {
     onProductAdded: (product: Product) => void;
@@ -67,30 +68,35 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
     };
 
     return (
-        <div>
-            <h2>Dodaj nowy produkt</h2>
-            <form onSubmit={handleSubmit} className="add-product-form">
-                <div className="form-group">
-                    <label htmlFor="productName">Nazwa Produktu:</label>
+        <div className={styles.AddProduct}>
+            <h2 className={styles.AddProduct__heading}>Dodaj nowy produkt</h2>
+            <form onSubmit={handleSubmit} className={styles.AddProduct__form}>
+                <div className={styles.AddProduct__formGroup}>
+                    <label htmlFor="productName" className={styles.AddProduct__label}>
+                        Nazwa Produktu:
+                    </label>
                     <input
                         type="text"
                         id="productName"
-                        className="form-control"
+                        className={styles.AddProduct__input}
                         value={productName}
                         onChange={handleProductNameChange}
                     />
                 </div>
-                <button type="submit" >
+                <button type="submit" className={styles.AddProduct__button}>
                     Dodaj produkt
                 </button>
             </form>
 
-            <h2>Lista produktów:</h2>
-            <ul className="product-list">
+            <h2 className={styles.AddProduct__heading}>Lista produktów:</h2>
+            <ul className={styles.AddProduct__productList}>
                 {products.map((product) => (
-                    <li key={product._id} className="product-item">
-                        <span>{product.name}</span>
-                        <button onClick={() => handleDeleteProduct(product._id)} className="neon-button-action-delete">
+                    <li key={product._id} className={styles.AddProduct__productItem}>
+                        <span className={styles.AddProduct__productName}>{product.name}</span>
+                        <button
+                            onClick={() => handleDeleteProduct(product._id)}
+                            className={styles.AddProduct__deleteButton}
+                        >
                             <FontAwesomeIcon icon={faTrash} />
                         </button>
                     </li>
@@ -98,6 +104,6 @@ const AddProduct: React.FC<AddProductProps> = ({ onProductAdded, onDeleteProduct
             </ul>
         </div>
     );
-};
+}
 
 export default AddProduct;
