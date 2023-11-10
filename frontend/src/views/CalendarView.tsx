@@ -13,7 +13,7 @@ const CalendarView = () => {
   const [editedRegistration, setEditedRegistration] = useState<Registration | null>(null);
 
   useEffect(() => {
-    fetch("`http://127.0.0.1:5001/api/registrations")
+    fetch("http://127.0.0.1:5001/api/registrations")
       .then((res) => res.json())
       .then((data: Registration[]) => {
         setRegistrations(data);
@@ -24,6 +24,8 @@ const CalendarView = () => {
             end: new Date(registration.endDate),
           }))
         );
+      }).catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
 
@@ -36,7 +38,9 @@ const CalendarView = () => {
       fetch(`http://127.0.0.1:5001/api/registrations/${id}`, {
         method: 'DELETE',
       }).then(() => {
-        setRegistrations(prev => prev.filter(reg => reg._id !== id));
+        setRegistrations((prev) => prev.filter((reg) => reg._id !== id));
+      }).catch((error) => {
+        console.error("Error deleting registration:", error);
       });
     }
   };
@@ -50,12 +54,13 @@ const CalendarView = () => {
         },
         body: JSON.stringify(editedRegistration)
       }).then(() => {
-        setRegistrations(prev => prev.map(reg => reg._id === editedRegistration._id ? editedRegistration : reg));
+        setRegistrations((prev) => prev.map((reg) => reg._id === editedRegistration._id ? editedRegistration : reg));
         setEditedRegistration(null);
+      }).catch((error) => {
+        console.error("Error updating registration:", error);
       });
     }
   };
-
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.calendarWrapper}>
