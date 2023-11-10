@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/TreatmentView.module.scss';
+import {Treatment} from "../Interface/Interface";
 
-type Treatment = {
-  _id: string;
-  massage: string;
-  price: number;
-  time: string;
-};
 
 const TreatmentView: React.FC = () => {
   const [treatments, setTreatments] = useState<Treatment[]>([]);
