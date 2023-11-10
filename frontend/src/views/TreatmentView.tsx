@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/TreatmentView.module.scss';
 
-
 type Treatment = {
   _id: string;
   massage: string;
@@ -23,20 +22,6 @@ const TreatmentView: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    const fetchTreatments = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:5001/api/treatments');
-        if (!response.ok) {
-          throw new Error('Failed to fetch treatments');
-        }
-        const data = await response.json();
-        setTreatments(data);
-      } catch (error) {
-        console.error('Error:', error);
-        setError('Nie można załadować danych');
-      }
-    };
-
     fetchTreatments();
   }, []);
 
@@ -44,13 +29,13 @@ const TreatmentView: React.FC = () => {
     try {
       const response = await fetch('http://127.0.0.1:5001/api/treatments');
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Failed to fetch treatments');
       }
       const data = await response.json();
       setTreatments(data);
     } catch (error) {
-      console.error('Error:', error);
-      setError('Coś poszło nie tak...');
+      console.error('Error:', (error as Error).message);
+      setError('Nie można załadować danych');
     }
   };
 
@@ -70,7 +55,7 @@ const TreatmentView: React.FC = () => {
       setNewTreatment({ _id: '', massage: '', price: 0, time: '' });
       fetchTreatments();
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', (error as Error).message);
       setError('Coś poszło nie tak...');
     }
   };
@@ -79,7 +64,7 @@ const TreatmentView: React.FC = () => {
     e.preventDefault();
     if (editData) {
       try {
-        const response = await fetch(`http://127.0.0.1:5001/api/treatments/api/treatments/${editData._id}`, {
+        const response = await fetch(`http://127.0.0.1:5001/api/treatments/${editData._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -92,7 +77,7 @@ const TreatmentView: React.FC = () => {
         setEditData(null);
         fetchTreatments();
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', (error as Error).message);
         setError('Coś poszło nie tak...');
       }
     }
@@ -100,7 +85,7 @@ const TreatmentView: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`http://127.0.0.1:5001/api/treatments/api/treatments/${id}`, {
+      const response = await fetch(`http://127.0.0.1:5001/api/treatments/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -108,7 +93,7 @@ const TreatmentView: React.FC = () => {
       }
       fetchTreatments();
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', (error as Error).message);
       setError('Coś poszło nie tak...');
     }
   };
