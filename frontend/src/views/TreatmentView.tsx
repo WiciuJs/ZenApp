@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/TreatmentView.module.scss';
-import {Treatment} from "../Interface/Interface";
-
+import { Treatment } from "../Interface/Interface";
 
 const TreatmentView: React.FC = () => {
   const [treatments, setTreatments] = useState<Treatment[]>([]);
@@ -15,6 +14,8 @@ const TreatmentView: React.FC = () => {
   });
   const [editData, setEditData] = useState<Treatment | null>(null);
   const [error, setError] = useState<string>('');
+
+  const durationOptions = ['30 min', '45 min', '1h', '1.5h', '2h'];
 
   useEffect(() => {
     fetchTreatments();
@@ -55,6 +56,13 @@ const TreatmentView: React.FC = () => {
     }
   };
 
+  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, field: keyof Treatment) => {
+    const value = e.target.value;
+    if (editData) {
+      setEditData({ ...editData, [field]: value });
+    }
+  };
+
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editData) {
@@ -79,17 +87,19 @@ const TreatmentView: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:5001/api/treatments/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    if (window.confirm("Czy na pewno chcesz usunąć ten zabieg?")) {
+      try {
+        const response = await fetch(`http://127.0.0.1:5001/api/treatments/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        fetchTreatments();
+      } catch (error) {
+        console.error('Error:', (error as Error).message);
+        setError('Coś poszło nie tak...');
       }
-      fetchTreatments();
-    } catch (error) {
-      console.error('Error:', (error as Error).message);
-      setError('Coś poszło nie tak...');
     }
   };
 
@@ -100,38 +110,42 @@ const TreatmentView: React.FC = () => {
         <h3>Nowy zabieg</h3>
         <form onSubmit={handleNewSubmit}>
           <label>
-            Rodzaj Masażu :
+            Rodzaj Masażu:
             <input
               type="text"
               value={newTreatment.massage}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e) =>
                 setNewTreatment({ ...newTreatment, massage: e.target.value })
               }
             />
           </label>
           <label>
-            Cena :
+            Cena:
             <input
               type="number"
               value={newTreatment.price}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e) =>
                 setNewTreatment({ ...newTreatment, price: Number(e.target.value) })
               }
             />
           </label>
-          <label>
-            Czas Trwania :
-            <input
-              type="text"
+          <label className={styles.durationLabel}>
+            Czas Trwania:
+            <select
+              className={styles.durationSelect}
               value={newTreatment.time}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setNewTreatment({ ...newTreatment, time: e.target.value })
-              }
-            />
+              onChange={(e) => setNewTreatment({ ...newTreatment, time: e.target.value })}
+            >
+              {durationOptions.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
           </label>
           <button type="submit">Dodaj</button>
         </form>
+
       </div>
+
       <table>
         <thead>
           <tr>
@@ -150,34 +164,32 @@ const TreatmentView: React.FC = () => {
                     <input
                       type="text"
                       value={editData.massage}
-                      onChange={(e) =>
-                        setEditData({ ...editData, massage: e.target.value })
-                      }
+                      onChange={(e) => handleEditChange(e, 'massage')}
                     />
                   </td>
                   <td>
                     <input
                       type="number"
                       value={editData.price}
-                      onChange={(e) =>
-                        setEditData({ ...editData, price: Number(e.target.value) })
-                      }
+                      onChange={(e) => handleEditChange(e, 'price')}
                     />
                   </td>
                   <td>
-                    <input
-                      type="text"
+                    <select
                       value={editData.time}
-                      onChange={(e) =>
-                        setEditData({ ...editData, time: e.target.value })
-                      }
-                    />
+                      onChange={(e) => handleEditChange(e, 'time')}
+                    >
+                      {durationOptions.map(option => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
                   </td>
                   <td>
                     <button onClick={handleEditSubmit}>Zapisz</button>
                     <button onClick={() => setEditData(null)}>Anuluj</button>
                   </td>
                 </tr>
+
               ) : (
                 <>
                   <td>{treatment.massage}</td>
@@ -204,3 +216,17 @@ const TreatmentView: React.FC = () => {
 };
 
 export default TreatmentView;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

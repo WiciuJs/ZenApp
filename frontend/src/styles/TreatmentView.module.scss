@@ -14,6 +14,8 @@
       padding-bottom: 10px;
     }
 
+    
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -61,6 +63,30 @@
           color: #f44336;
         }
       }
+    }
+
+    .durationSelect {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #d1d1d1;
+      border-radius: 8px;
+      background-color: #fafafa;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    
+      &:focus {
+        border-color: #a0a0a0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        outline: none;
+      }
+    }
+    
+    .durationLabel {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
     }
 
     .editRegistrationContainer {

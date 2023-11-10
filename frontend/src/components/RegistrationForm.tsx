@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { RegistrationFormData, Treatment, Customer, RegistrationFormProps } from "../Interface/Interface";
 import styles from '../styles/RegistrationForm.module.scss';
 
-
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
     onRegistrationSubmit,
     closeRegistrationModal,
     selectedCustomer,
     treatments
 }) => {
+    
     const initialFormData: RegistrationFormData = {
         startDate: new Date().toISOString().slice(0, 16),
         endDate: new Date().toISOString().slice(0, 16),
@@ -45,7 +45,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     className={styles.datetimeInput}
                 />
             </div>
-
             <div className={styles.formGroup}>
                 <label htmlFor="endDate" className={styles.label}>Data zakończenia:</label>
                 <input
@@ -74,7 +73,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     ))}
                 </select>
             </div>
-
             <div className={styles.formActions}>
                 <button type="submit" className={styles.registrationButton}>
                     Zapisz
