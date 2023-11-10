@@ -1,22 +1,18 @@
 import React, { useState } from "react";
-import { Customer, RegistrationFormData } from "../Interface/Interface";
+import { RegistrationFormData, Treatment, Customer, RegistrationFormProps } from "../Interface/Interface";
 import styles from '../styles/RegistrationForm.module.scss';
 
-interface RegistrationFormProps {
-    onRegistrationSubmit: (formData: RegistrationFormData) => void;
-    closeRegistrationModal: () => void;
-    selectedCustomer: Customer | null;
-}
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
     onRegistrationSubmit,
     closeRegistrationModal,
     selectedCustomer,
+    treatments
 }) => {
     const initialFormData: RegistrationFormData = {
         startDate: new Date().toISOString().slice(0, 16),
         endDate: new Date().toISOString().slice(0, 16),
-        name: "",
+        treatment: treatments.length > 0 ? treatments[0]._id : "",
         customer: selectedCustomer ? selectedCustomer._id : "",
         duration: 30,
     };
@@ -27,10 +23,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -52,6 +45,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     className={styles.datetimeInput}
                 />
             </div>
+
             <div className={styles.formGroup}>
                 <label htmlFor="endDate" className={styles.label}>Data zakończenia:</label>
                 <input
@@ -63,19 +57,24 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     className={styles.datetimeInput}
                 />
             </div>
+
             <div className={styles.formGroup}>
-                <label htmlFor="name" className={styles.label}>Wybierz usługę:</label>
+                <label htmlFor="treatment" className={styles.label}>Wybierz zabieg:</label>
                 <select
-                    id="name"
-                    name="name"
-                    value={formData.name}
+                    id="treatment"
+                    name="treatment"
+                    value={formData.treatment}
                     onChange={handleInputChange}
                     className={styles.registrationSelect}
                 >
-                    <option value="masaż">masaż</option>
-                    <option value="piling">piling</option>
+                    {treatments.map(treatment => (
+                        <option key={treatment._id} value={treatment._id}>
+                            {treatment.massage} - {treatment.price} zł, Czas: {treatment.time}
+                        </option>
+                    ))}
                 </select>
             </div>
+
             <div className={styles.formActions}>
                 <button type="submit" className={styles.registrationButton}>
                     Zapisz

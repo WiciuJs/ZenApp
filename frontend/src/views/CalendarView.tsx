@@ -13,13 +13,13 @@ const CalendarView = () => {
   const [editedRegistration, setEditedRegistration] = useState<Registration | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/registrations")
+    fetch("`http://127.0.0.1:5001/api/registrations")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Registration[]) => {
         setRegistrations(data);
         setCalendarEvents(
-          data.map((registration: Registration) => ({
-            title: registration.name,
+          data.map((registration) => ({
+            title: `${registration.treatment.massage}`,
             start: new Date(registration.startDate),
             end: new Date(registration.endDate),
           }))
@@ -33,7 +33,7 @@ const CalendarView = () => {
 
   const handleDelete = (id: string) => {
     if (window.confirm("Czy na pewno chcesz usunąć tę rejestrację?")) {
-      fetch(`http://localhost:5001/api/registrations/${id}`, {
+      fetch(`http://127.0.0.1:5001/api/registrations/${id}`, {
         method: 'DELETE',
       }).then(() => {
         setRegistrations(prev => prev.filter(reg => reg._id !== id));
@@ -43,7 +43,7 @@ const CalendarView = () => {
 
   const handleEditSubmit = () => {
     if (editedRegistration) {
-      fetch(`http://localhost:5001/api/registrations/${editedRegistration._id}`, {
+      fetch(`http://127.0.0.1:5001/api/registrations/${editedRegistration._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -79,7 +79,7 @@ const CalendarView = () => {
               <tr key={registration._id}>
                 <td>{registration.customer.name}</td>
                 <td>{registration.customer.surname}</td>
-                <td>{registration.name}</td>
+                <td>{registration.treatment.massage}</td>
                 <td>{dayjs(registration.startDate).format('DD.MM.YYYY - HH:mm')}</td>
                 <td>{dayjs(registration.endDate).format('HH:mm')}</td>
                 <td>
@@ -104,14 +104,6 @@ const CalendarView = () => {
                 type="datetime-local"
                 value={dayjs(editedRegistration.startDate).format('YYYY-MM-DDTHH:mm')}
                 onChange={(e) => setEditedRegistration({ ...editedRegistration, startDate: e.target.value })}
-              />
-            </label>
-            <label>
-              Rodzaj zabiegu:
-              <input
-                type="text"
-                value={editedRegistration.name}
-                onChange={(e) => setEditedRegistration({ ...editedRegistration, name: e.target.value })}
               />
             </label>
             <button onClick={handleEditSubmit}>Zapisz zmiany</button>

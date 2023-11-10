@@ -8,7 +8,7 @@ import {
   faUserGear as faDuotoneUserGear,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Customer, RegistrationFormData } from "../Interface/Interface";
+import { Customer, RegistrationFormData, Treatment } from "../Interface/Interface";
 import Modal from "react-modal";
 import styles from "../styles/CustomerListView.module.scss";
 
@@ -25,6 +25,7 @@ const CustomerListView: React.FC = () => {
   const [selectedCustomerForRegistration, setSelectedCustomerForRegistration] =
     useState<Customer | null>(null);
   const [isRegistrationModalOpen, setRegistrationModalOpen] = useState(false);
+  const [treatments, setTreatments] = useState<Treatment[]>([]);
 
   const handleRegistrationSubmit = (formData: RegistrationFormData) => {
     axios
@@ -76,7 +77,19 @@ const CustomerListView: React.FC = () => {
           console.error("Błąd podczas pobierania użytkowników:", error);
         });
     }
+
   };
+
+  const fetchTreatments = () => {
+    axios.get("http://127.0.0.1:5001/api/treatments")
+      .then(response => {
+        setTreatments(response.data);
+      })
+      .catch(error => {
+        console.error("Błąd podczas ładowania zabiegów:", error);
+      });
+  };
+
 
   const handleCustomerAdded = () => {
     fetchCustomers();
@@ -151,6 +164,7 @@ const CustomerListView: React.FC = () => {
                 onRegistrationSubmit={handleRegistrationSubmit}
                 closeRegistrationModal={closeRegistrationModal}
                 selectedCustomer={selectedCustomerForRegistration}
+                treatments={treatments}
               />
             </div>
           </div>

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import RegistrationController from '../controllers/registrationController';
+import { createRegistration, readRegistration, updateRegistration, deleteRegistration } from '../controllers/registrationController';
+
 const router = Router();
 
-router.post('/registrations', RegistrationController.create);
-router.get('/registrations', RegistrationController.read);
-router.get('/registrations/:id', RegistrationController.read);
-router.put('/registrations/:id', RegistrationController.update);
-router.delete('/registrations/:id', RegistrationController.delete);
+router.post('/registrations', createRegistration);
+router.get('/registrations', readRegistration);
+router.get('/registrations/:id', readRegistration);
+router.put('/registrations/:id', updateRegistration);
+router.delete('/registrations/:id', deleteRegistration);
 
 export default router;
-
